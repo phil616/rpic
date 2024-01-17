@@ -1,0 +1,20 @@
+# pycache
+/__pycache__
+__pycache__/
+/.idea
+*.pyc
+
+/logs
+
+/venv
+
+*.logs
+*.log
+
+.env
+
+# vistracer file, terribly large
+result.json
+
+*.py[cod]
+*$py.class
