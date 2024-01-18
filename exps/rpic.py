@@ -96,3 +96,9 @@ def hello():
 
 ret = assemble(hello,[])
 disassemble(ret)()
+
+def reference():
+    print("hello reference")
+
+reference()
+del reference
