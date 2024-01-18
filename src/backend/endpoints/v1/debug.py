@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from fastapi import Request
-from config import config
 
 debug_router = APIRouter()
 
