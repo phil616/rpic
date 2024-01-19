@@ -24,3 +24,6 @@ jicson~=1.0.2
 caldav~=1.3.6
 requests~=2.31.0
 pytz~=2023.3.post1
+furl~=2.1.3
+ujson~=5.9.0
+marshmallow~=3.20.2
