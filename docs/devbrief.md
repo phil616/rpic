@@ -9,3 +9,10 @@ following items should be ioslated:
 * bytecode might access and control other memory space by using out of border.
 * global variables
 
+3. necessary components for subapp
+
+* load up function list sequence
+* unfinish task list
+* comfirm and report platform
+
+> after compare with the complexity of message queue and callback, it is better to use a simple way to dispatch function,(callback).
