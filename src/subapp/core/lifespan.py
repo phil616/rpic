@@ -1,10 +1,9 @@
 from fastapi import FastAPI
-from database import sqlite
 from tortoise import Tortoise
 import contextlib
 
 
-SQLite_url = "sqlite://./db.sqlite3"
+SQLite_url = "sqlite://./db.sqlite3"  # should be move to config file
 
 
 @contextlib.asynccontextmanager
