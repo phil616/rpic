@@ -1,4 +1,4 @@
-from Basic import TimestampMixin
+from .Basic import TimestampMixin
 
 from tortoise import fields
 
