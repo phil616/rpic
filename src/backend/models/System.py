@@ -3,4 +3,3 @@ from tortoise import fields
 
 class SystemPod(TimestampMixin):
     ...
-    
