@@ -22,3 +22,7 @@ following items should be ioslated:
 load vm by vm tools is slow, the best way is to copy files and env configs, in this case the only factor is the size of files.
 
 copy venv files and cfg ,run a specific python file, it is the best way to run a python script.
+
+a question is, how does swagger api's schema generated?
+
+if a class can be parse to a json schema, what function can make it ?
