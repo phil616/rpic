@@ -16,3 +16,9 @@ following items should be ioslated:
 * comfirm and report platform
 
 > after compare with the complexity of message queue and callback, it is better to use a simple way to dispatch function,(callback).
+
+4. about vms
+
+load vm by vm tools is slow, the best way is to copy files and env configs, in this case the only factor is the size of files.
+
+copy venv files and cfg ,run a specific python file, it is the best way to run a python script.
