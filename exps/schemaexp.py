@@ -21,6 +21,13 @@ async def openapi_get(req:Request):
         version="0.0.1",
         description="Dec",
         routes=req.app.routes,  
+        tags=[{"name":"user","description":"user"}],
+        terms_of_service="http://example.com/terms/",
+        contact={
+            "name":"API Support",
+            "url":"http://www.example.com/support",
+            "email":"22"},
+        license_info={"name":"Apache 2.0"}
     )
     return openapi_schema
 @app.post("/user")
