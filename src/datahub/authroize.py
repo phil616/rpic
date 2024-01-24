@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from passlib.hash import sha256_crypt
 from utils import write_file,get_boot_time,verify_password,generate_password_hash
 from control import User
-
+from fastapi import Request
 
 def E401(detail, headers):
     raise HTTPException(status_code=401, detail=detail, headers=headers)
@@ -40,12 +40,13 @@ def create_access_token(data: dict) -> str:
 OAuth2 = OAuth2PasswordBearer("/authorization/token")
 
 
-async def check_permissions(token=Depends(OAuth2)) -> None:
+async def check_permissions(req:Request,token=Depends(OAuth2)) -> None:
     payload = None
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=['HS256'])
         if not payload:
             E401("Invalid certification", {"WWW-Authenticate": f"Bearer {token}"})
+        req.app.state.username = payload.get("username")
     except jwt.ExpiredSignatureError:
         E401("Certification has expired", {"WWW-Authenticate": f"Bearer {token}"})
     except jwt.InvalidTokenError:
@@ -66,10 +67,16 @@ async def authorize_router_get_token(model:UserVerifySchema):
         E401("Invalid password", {"WWW-Authenticate": "Bearer"})
     return {"access_token": create_access_token({"username": model.username})}
 
+class UserRegisterSchema(BaseModel):
+    username: str
+    id: int
+
 @authorize_router.post("/register")
-async def authorize_router_register(model:UserVerifySchema):
+async def authorize_router_register(model:UserVerifySchema,key:str):
+    if key != "datahub":
+        E401("Invalid key", {"WWW-Authenticate": "Bearer"})
     user = await User.create(
         username=model.username,
         password=generate_password_hash(model.password)
     )
-    return user
+    return UserRegisterSchema(**user.__dict__)
