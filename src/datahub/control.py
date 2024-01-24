@@ -15,6 +15,12 @@ class User(Model):
     class Meta:
         table = "user"
         description = "user database"
+class SQLDB(Model):
+    username = fields.CharField(max_length=255,unique=True,description="Username for login")
+    json = fields.JSONField(default={},description="json data")
+class JsonDB(Model):
+    key = fields.CharField(max_length=255,unique=True,description="key for json")
+    json = fields.JSONField(default={},description="json data")
 
 SQLite_url = "sqlite://./db.sqlite3"  # should be move to config file
 

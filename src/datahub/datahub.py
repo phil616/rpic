@@ -1,6 +1,8 @@
 from fastapi import APIRouter,Depends
 from dependencies import get_state,GlobalDependency
 from pydantic import BaseModel
+from control import SQLDB
+from fastapi import Request
 curd_router = APIRouter()
 
 class DataSchema(BaseModel):
@@ -36,3 +38,21 @@ async def delete_disk_by_key(disk_id:str,key:str,state:GlobalDependency=Depends(
 async def submit_disk_by_key(disk_id:str,state:GlobalDependency=Depends(get_state)):
     return state.diskes[disk_id].submit()
 
+
+@curd_router.get("/db/get/userspace")
+async def get_sqldb_username_space(req:Request):
+    alljson = await SQLDB.filter(username=req.app.state.username).all()
+    return alljson
+
+@curd_router.post("/db/set/userspace")
+async def set_sqldb_username_space(data:DataSchema,req:Request):
+    raise NotImplementedError
+
+
+@curd_router.get("/json/new")
+async def new_json(req:Request):
+    ...
+
+@curd_router.get("/json/get/{id}/{key}")
+async def get_json_by_key(id:str,key:str,req:Request):
+    ...
