@@ -3,7 +3,6 @@ from tortoise import fields
 from fastapi import FastAPI
 from tortoise import Tortoise
 import contextlib
-from utils import get_boot_time,a_write_file
 
 class User(Model):
     id = fields.IntField(pk=True)
