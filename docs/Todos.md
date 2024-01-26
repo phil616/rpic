@@ -6,6 +6,11 @@
 2. SQLite Database Interface
 3. SDK
 
+--
+component: 
+1. Redis Cache
+2. TinyDB, etc.
+
 
 ## Central Pod
 1. User Management
