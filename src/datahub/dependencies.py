@@ -18,7 +18,6 @@ class GlobalDependency:
                 if key in self.storage_dict:
                     return self.storage_dict[key]
                 else:
-                   
                     loaded_file_storage = FileStorage(key)
                     self.storage_dict[key] = loaded_file_storage
                     return loaded_file_storage
