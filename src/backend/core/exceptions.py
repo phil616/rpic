@@ -7,7 +7,7 @@ from starlette import status
 from typing import Optional, Any
 
 
-def E401(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
+def HTTP401(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
     # TODO log here
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

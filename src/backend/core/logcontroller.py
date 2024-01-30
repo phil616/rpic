@@ -1,11 +1,29 @@
 """
-
+NOT FINISHED
 """
-import logging
-import logging.handlers
-from os import mkdir
-from os.path import join, dirname, abspath, exists
+from loguru import logger
+import notifiers
+# Be alerted on each error message
+from notifiers.logging import NotificationHandler
+params = {
+    "username": "you@gmail.com",
+    "password": "abc123",
+    "to": "dest@gmail.com"
+}
 
+# Send a single notification
+notifier = notifiers.get_notifier("gmail")
+notifier.notify(message="The application is running!", **params)
+
+
+handler = NotificationHandler("gmail", defaults=params)
+logger.add(handler, level="ERROR")
+
+logger.add(
+    sink="runtime_{time}.log",
+    format="{time} {level} {message}",
+)
+logger.info("hello")
 
 LOG_normal_format = ("[ %(levelname)s ] %(asctime)s %(filename)s:%(lineno)d %(message)s")
 LOG_debug_format = ("[ %(levelname)s ] %(threadName)s %(asctime)s %(filename)s:%(lineno)d %(message)s")

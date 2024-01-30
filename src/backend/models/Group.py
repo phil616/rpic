@@ -1,14 +1,36 @@
 from .Basic import TimestampMixin
 from tortoise import fields
-
+from tortoise.indexes import Index
 class Group(TimestampMixin):
-    group_id = fields.IntField(pk=True,description="组ID，主键")
-    group_name = fields.CharField(max_length=255,null=True,description="Group's name")
-    group_admin = fields.CharField(max_length=255,description="who own this group")
-    group_info = fields.JSONField(default={})
-
+    group_id = fields.IntField(pk=True, description="Group ID, primary key")
+    group_administrator = fields.ForeignKeyField("models.User", related_name="group_administrator", description="Group Administrator")
+    group_name = fields.CharField(max_length=255, description="Group Name")
+    group_info = fields.JSONField(description="Group Info")
+    group_status = fields.IntField(description="Group Status")
     class Meta:
         table = "group"
-        description = "group database"
+        table_description = "Group Table"
+        unique_together = (("group_id", "group_name"),)
+        ordering = ["group_id"]
+        indexes = [
+            Index(
+                fields=["group_id"],
+                name="group_id_index"),
+            Index(
+                fields=["group_name"],
+                name="group_name_index")
+        ]
+    
+class GroupUser(TimestampMixin):
+    group_id = fields.ForeignKeyField("models.Group", related_name="group_user", description="Group ID")
+    user_id = fields.ForeignKeyField("models.User", related_name="group_user", description="Group User")
+    class Meta:
+        table = "group_user"
+        table_description = "Group User"
 
-        
+class GroupProcedure(TimestampMixin):
+    group_id = fields.ForeignKeyField("models.Group", related_name="group_procedure", description="Group ID")
+    procedure_id = fields.ForeignKeyField("models.Procedure", related_name="group_procedure", description="Group Procedure")
+    class Meta:
+        table = "group_procedure"
+        table_description = "Group Procedure"

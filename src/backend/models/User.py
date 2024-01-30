@@ -1,20 +1,83 @@
 from .Basic import TimestampMixin
 from tortoise import fields
+from tortoise.indexes import Index
+
+
 
 class User(TimestampMixin):
     """
-    User Table, define the basic user of the system
+    User Table
     """
-    user_id = fields.IntField(pk=True)
-    username = fields.CharField(max_length=255,unique=True,description="Username for login")
-    password = fields.CharField(max_length=255,description="Password for login")
-    groups = fields.JSONField(default=[],description="groups it have")
-    role = fields.JSONField(default=[],description="role of this user, admin/user/system")
-    is_active = fields.BooleanField(default=True,description="availiable")
-    user_info = fields.JSONField(default={},description="user's extra info")
-    user_email = fields.CharField(max_length=255,unique=True,null=True,description="user's email")
-    user_phone = fields.CharField(max_length=255,unique=True,null=True,description="user's phone number")
-
+    user_id = fields.IntField(pk=True, description="User ID, primary key")
+    username = fields.CharField(max_length=255, unique=True, description="Username")
+    password = fields.CharField(max_length=255, description="Password")
+    user_info = fields.JSONField(description="User Info")
+    user_status = fields.IntField(description="User Status")
     class Meta:
         table = "user"
-        description = "user database"
+        table_description = "User Table"
+        unique_together = (("user_id", "username"),)
+        ordering = ["user_id"]
+        indexes = [
+            Index(
+                fields=["user_id"],
+                name="user_id_index"),
+            Index(
+                fields=["username"],
+                name="username_index")
+        ]
+    
+class UserRole(TimestampMixin):
+    """
+    User Role
+    """
+    user_id = fields.ForeignKeyField("models.User", related_name="user_role", description="User ID")
+    user_roles = fields.CharField(max_length=255, description="User Roles")
+    class Meta:
+        table = "user_role"
+        table_description = "User Role"
+
+class RoleScope(TimestampMixin):
+    """
+    Role Scope
+    """
+    user_role = fields.CharField(max_length=255, description="User Roles")
+    role_scopes = fields.CharField(max_length=255, description="Role Scopes")
+    class Meta:
+        table = "role_scope"
+        table_description = "Role Scope"
+
+"""
+
+[PROCEDURE:ACCESS]
+1. GET  # 获取过程信息
+2. EXCUTE  # 执行过程
+
+[PROCEDURE:MODIFY]
+1. CREATE  # 创建过程
+2. UPDATE  # 更新过程
+3. DELETE  # 删除过程
+4. MOUNT   # 挂载过程
+5. UNMOUNT # 卸载过程
+
+[PROCEDURE:ADMIN]
+1. ALTID  # 修改过程ID
+
+[GROUP:CURD]
+1. GET    # 获取组信息
+2. DELETE # 删除组
+3. UPDATE # 更新组
+4. CREATE # 创建组
+
+[GROUP:ENDPOINT]
+1. ASSIGN  # 分配端点
+2. RENAME  # 重命名端点
+3. DELETE(DISABLE)  # 删除端点
+
+[USER:CURD]
+1. GET    # 获取用户信息
+2. DELETE # 删除用户
+3. UPDATE # 更新用户
+4. CREATE # 创建用户
+
+"""
