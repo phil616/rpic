@@ -1,7 +1,7 @@
 from fastapi import APIRouter,FastAPI
 from fastapi.openapi.utils import get_openapi
 from fastapi import Request
-from config import config
+from backend.conf import config
 
 openapi_router = APIRouter()
 

@@ -6,7 +6,7 @@ import jwt
 from fastapi.security import SecurityScopes
 from fastapi import Depends
 from pydantic import ValidationError
-from config import appcfg
+from backend.conf import appcfg
 from core.exceptions import E401
 from core.security import CookieSecurity
 
