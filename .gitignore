@@ -23,4 +23,6 @@ result.json
 *.sqlite3-wal
 *.sqlite3-shm
 
-
+# Draw IO temp files and backup files
+*.bkp  
+*.dtmp
