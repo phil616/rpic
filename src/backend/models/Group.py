@@ -20,17 +20,3 @@ class Group(TimestampMixin):
                 fields=["group_name"],
                 name="group_name_index")
         ]
-    
-class GroupUser(TimestampMixin):
-    group_id = fields.ForeignKeyField("models.Group", related_name="group_user", description="Group ID")
-    user_id = fields.ForeignKeyField("models.User", related_name="group_user", description="Group User")
-    class Meta:
-        table = "group_user"
-        table_description = "Group User"
-
-class GroupProcedure(TimestampMixin):
-    group_id = fields.ForeignKeyField("models.Group", related_name="group_procedure", description="Group ID")
-    procedure_id = fields.ForeignKeyField("models.Procedure", related_name="group_procedure", description="Group Procedure")
-    class Meta:
-        table = "group_procedure"
-        table_description = "Group Procedure"

@@ -27,26 +27,6 @@ class User(TimestampMixin):
                 name="username_index")
         ]
     
-class UserRole(TimestampMixin):
-    """
-    User Role
-    """
-    user_id = fields.ForeignKeyField("models.User", related_name="user_role", description="User ID")
-    user_roles = fields.CharField(max_length=255, description="User Roles")
-    class Meta:
-        table = "user_role"
-        table_description = "User Role"
-
-class RoleScope(TimestampMixin):
-    """
-    Role Scope
-    """
-    user_role = fields.CharField(max_length=255, description="User Roles")
-    role_scopes = fields.CharField(max_length=255, description="Role Scopes")
-    class Meta:
-        table = "role_scope"
-        table_description = "Role Scope"
-
 """
 
 [PROCEDURE:ACCESS]

@@ -27,33 +27,3 @@ class Procedure(TimestampMixin):
                 name="procedure_type_index")
         ]
 
-class ProcedureInfo(TimestampMixin):
-    procedure_id = fields.ForeignKeyField("models.Procedure",related_name="procedure_info",description="Procedure ID")
-    procedure_name = fields.CharField(max_length=255,description="Procedure Name")
-    procedure_decrypt_key = fields.CharField(max_length=255,description="Procedure Decrypt Key")
-    procedure_encrypt_type = fields.CharField(max_length=255,description="Procedure Encrypt Key")
-    procedure_size = fields.IntField(description="Procedure Size")
-    procedure_extra = fields.JSONField(description="Procedure Info")
-    class Meta:
-        table = "procedure_info"
-        table_description = "Procedure Info"
-
-class ProcedureExecute(TimestampMixin):
-    procedure_id = fields.ForeignKeyField("models.Procedure",related_name="procedure_execute",description="Procedure ID")
-    executed_by = fields.ForeignKeyField("models.User",related_name="procedure_execute",description="Executed By")
-    executed_at = fields.DatetimeField(auto_now_add=True,description="Executed At")
-    executed_from = fields.CharField(max_length=255,description="Executed From")
-
-    class Meta:
-        table = "procedure_execute"
-        table_description = "Procedure Execute"
-
-class EndpointProcedure(TimestampMixin):
-    endpoint_id = fields.IntField(pk=True,description="Endpoint ID, primary key")
-    param_number = fields.IntField(description="Param Number")
-    openapi_schema = fields.JSONField(description="OpenAPI Schema")
-    namespace = fields.CharField(max_length=255,description="Namespace")
-    mount_path = fields.CharField(max_length=255,description="Mount Path")
-    class Meta:
-        table = "endpoint_procedure"
-        table_description = "Endpoint Procedure"

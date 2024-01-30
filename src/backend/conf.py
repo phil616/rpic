@@ -14,9 +14,10 @@ def get_models() -> list:
         models = list(set(i) - set(skip_files))
         for model in models:
             model = model.replace(".py", "")
-            model = "model." + model
+            model = "models." + model
             ret.append(model)
         break
+
     return ret
 
 load_dotenv()
@@ -39,28 +40,7 @@ class AppConfig(BaseSettings):
     MYSQL_PASS:str = Field(default="123456", env="MYSQL_PASS",description="MySQL密码")
     MYSQL_DB:str = Field(default="rpics", env="MYSQL_DB",description="MySQL数据库名称")
     GLOBAL_TIMEZONE: str = Field(default="Asia/Shanghai", env="GLOBAL_TIMEZONE",description="全局时区")
-    MYSQL_URI: dict = {
-        "connections": {
-            "base": {  # base database named base
-                'engine': 'tortoise.backends.mysql',
-                "credentials": {
-                    'host': MYSQL_HOST,
-                    'user': MYSQL_USER,
-                    'password': MYSQL_PASS,
-                    'port': MYSQL_PORT,
-                    'database': MYSQL_DB,  # name of mysql database server
-                }
-            },
-        },
-        "apps": {
-            "base": {
-                "models": get_models(),  # model file in ./models
-                "default_connection": "base"  # link to `base` database
-            },
-        },
-        'use_tz': False,
-        'timezone': GLOBAL_TIMEZONE
-    }
+
 
     # -------------------- JWT --------------------
     # JWT (Json Web Token) 
