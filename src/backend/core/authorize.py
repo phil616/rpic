@@ -10,6 +10,8 @@ from backend.conf import appcfg
 from core.exceptions import E401
 from core.security import CookieSecurity
 
+
+
 def create_access_token(data: dict) -> str:
     """
     返回JWT的token字符串

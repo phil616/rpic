@@ -5,41 +5,50 @@ from conf import config,get_models
 from pymysql import connect
 from pymysql.err import ProgrammingError
 from core.logcontroller import log
-
-TABLE_AUTO_CREATE = False
-
-
-async def mysql_connect_test():
-    conn = connect(
+from typing import Dict
+def execute_mysql_query(sql_query: str) -> None:
+    with connect(
         host=config.MYSQL_HOST,
         user=config.MYSQL_USER,
         password=config.MYSQL_PASS,
         port=config.MYSQL_PORT,
-    )
-    cursor = conn.cursor()
+    ) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(sql_query)
+            conn.commit()
+
+async def mysql_connect_test()->Dict[str,bool]:
+    result_state = {
+        "generate_schemas": False,  # table not exists
+        "create_database": False,  # database not exists
+    }
+        # there are following situations:
+        # 1. No Database: error code is 1049
+        # 2. No Table: error code is 1146
+    try:
+        sql_query = f"USE {config.MYSQL_DB};"
+        execute_mysql_query(sql_query)
+        log.debug("[MYSQL RAW] Executing SQL query:" + sql_query)
+    except Exception as e:
+        log.error(f"[MYSQL 1049] Error {e}")
+        # create database and build schema
+        result_state["create_database"] = True
+        result_state["generate_schemas"] = True
+        return result_state
 
     try:
-
-        sql_query = f"CREATE DATABASE {config.MYSQL_DB};"
-        cursor.execute(sql_query)
-        log.debug("Executing SQL query for testing MySQL connection: " + sql_query)
-    except ProgrammingError as e:
+        sql_query = f"SELECT * FROM {config.MYSQL_DB}.USER;"
+        execute_mysql_query(sql_query)
+        log.debug("[MYSQL RAW] Executing SQL query:" + sql_query)
+    except Exception as e:
         # example: (1007, "Can't create database 'xxx'; database exists")
         # use the regex to get the error code
         error_code = re.findall(r"\((\d+)\,", str(e))[0]
-        global TABLE_AUTO_CREATE
-        if error_code == "1007":
-            log.info("Database already exists, skip creating database")
-            # database exists
-            TABLE_AUTO_CREATE = False
-        else:
-            log.info("Database does not exist, creating database")
-            TABLE_AUTO_CREATE = True
+        log.error(f"[MYSQL {error_code}] Error {e}")
+        result_state['generate_schemas'] = True
+        result_state['create_database'] = False
+    return result_state
 
-    finally:
-        cursor.close()
-        conn.close()
-    ...
 
 
 async def register_mysql(app: FastAPI):
@@ -72,12 +81,16 @@ async def register_mysql(app: FastAPI):
         'timezone': config.GLOBAL_TIMEZONE
     }
     
-    await mysql_connect_test()
+    test_result = await mysql_connect_test()
+    if test_result["create_database"]:
+        sql_query = f"CREATE DATABASE {config.MYSQL_DB};"
+        execute_mysql_query(sql_query)
+        log.info("[MYSQL] Database created")
     register_tortoise(
         app,
         config=config_dict,
         modules={"models": models},
-        generate_schemas=TABLE_AUTO_CREATE,
+        generate_schemas=test_result["generate_schemas"],
         add_exception_handlers=config.APP_DEBUG,
     )
     log.info("MySQL registered")

@@ -13,6 +13,7 @@ class User(TimestampMixin):
     password = fields.CharField(max_length=255, description="Password")
     user_info = fields.JSONField(description="User Info")
     user_status = fields.IntField(description="User Status")
+    user_roles = fields.CharField(max_length=255, description="User Roles")
     class Meta:
         table = "user"
         table_description = "User Table"
