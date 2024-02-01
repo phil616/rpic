@@ -3,7 +3,7 @@ from models.User import User
 from models.RoleScope import RoleScope  # Role - Scope
 from models.Group import Group
 from models.GroupUser import GroupUser
-
+from core.logcontroller import log
 user_scopes = {
     "PROCEDURE:ACCESS": "Access procedure",
     "PROCEDURE:MODIFY" : "Modify procedure",
@@ -41,14 +41,25 @@ async def curd_init_role_scope():
         role_scopes="PROCEDURE:ACCESS,PROCEDURE:MODIFY,PROCEDURE:ADMIN,GROUP:CURD,GROUP:ENDPOINT,USER:CURD"
     )
 
-async def get_user_permissions(user_id:int):
+async def get_user_permissions(user_id:int)->list[str]:
     """
     get user's permissions(scopes) by user id
     :param user_id: user id
     :return: List[str] permissions
     """
-    ...
-
+    role_permission = []
+    try:
+        user = await User.get(user_id=user_id)
+        roles = user.user_roles.split(",")
+        for role in roles:
+            role_scopes = await RoleScope.filter(user_role=role).first()
+            if not role_scopes:
+                continue
+            role_permission.extend(role_scopes.role_scopes.split(","))
+    except Exception as e:
+        log.exception(e)
+        return []
+    return role_permission
 async def verify_user_password(username:str, password:str):
     """
     verify user's password
@@ -58,7 +69,14 @@ async def verify_user_password(username:str, password:str):
     """
     user = await User.get(username=username)
     return user.password == password
-
+async def verify_password(password:str,hashed_password):
+    """
+    verify user's password
+    :param username: username
+    :param password: password
+    :return: bool
+    """
+    return password == hashed_password
 async def curd_debug_test_user():
     user = await User.create(
         username="test1",
@@ -68,7 +86,6 @@ async def curd_debug_test_user():
         user_status=1,
     )
     print("debug user = ",user)
-
 
 """
 

@@ -1,15 +1,25 @@
 
 from datetime import timedelta, datetime
-from enum import Enum
-from typing import List
+from typing import Annotated, List
 import jwt
-from fastapi.security import SecurityScopes
+from fastapi.security import  SecurityScopes
 from fastapi import Depends
 from pydantic import ValidationError
-from backend.conf import appcfg
-from core.exceptions import E401
+from conf import config
+from core.exceptions import HTTP_E401
 from core.security import CookieSecurity
+from curd.authentication import user_roles
+from fastapi.security import OAuth2PasswordRequestForm
 
+from typing import Union
+
+from fastapi.param_functions import Form
+
+
+
+token_url = "/authorization/token"
+
+oauth2_depends = CookieSecurity("/authorization/token", scopes=user_roles)
 
 
 def create_access_token(data: dict) -> str:
@@ -18,77 +28,104 @@ def create_access_token(data: dict) -> str:
     :param data: 负载数据
     :return: 负载数据被转换后的字符串
     """
+    """
+    RFC7519标准: https://www.rfc-editor.org/rfc/rfc7519
+    第四章 包含了：
+    "iss" (Issuer), 颁布者  本系统，颁布者为 APP_NAME
+    "sub" (Subject),  主题  
+    "aud" (Audience),  观众
+    "exp" (Expiration Time), 过期时间
+    "nbf" (Not Before), 生效时间
+    "iat" (Issued At), 颁布时间
+    "jti" (JWT ID) JWT ID
+    Private Claim Names 私有声明
+    1. "uid" (User) 用户ID
+    2. "per" (Permission) 要求的权限
+    使用的字段：
+    1. "exp" (Expiration Time), 过期时间
+    2. "uid" (User) 用户ID
+    3. "per" (Permission) 要求的权限（根据权限颁发给用户的）
+    4. "gid" (Group) 用户组ID
+    5. "typ" (Type) 用户类型
+    """
     token_data = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=appcfg.JWT_ACCESS_EXPIRE_MINUTES)  # JWT过期分钟 = 当前时间 + 过期时间
+    expire = datetime.utcnow() + timedelta(minutes=config.JWT_ACCESS_EXPIRE_MINUTES)  # JWT过期分钟 = 当前时间 + 过期时间
     token_data.update(
         {
-            "exp": expire,  # 根据RFC7519标准， https://www.rfc-editor.org/rfc/rfc7519，该字段为判断过期时间的字段
+            "exp": expire, 
+
         }
     )
-    jwt_token = jwt.encode(payload=token_data,  # 编码负载
-                           key=appcfg.JWT_SECRET_KEY,  # 密钥
-                           algorithm=appcfg.JWT_ALGORITHM)  # 默认算法
+    jwt_token = jwt.encode(
+        payload=token_data,             # 编码负载
+        key=config.JWT_SECRET_KEY,      # 密钥
+        algorithm=config.JWT_ALGORITHM  # 默认算法
+    )                                   
     return jwt_token
 
 
-user_scopes = {
-    "user": "current user",
-    "admin": "administrator of system",
-    "system": "system admin"
-}
 
-OAuth2 = CookieSecurity("/authorization/token", scopes=user_scopes)
-
-
-class UserRoleMapping(Enum):
-    # just for visual alignment
-    user = 0b0000000001
-    admin = 0b000000010
-    management = 0b0100
-    system = 0b00001000
-
-
-def DOC_generate_mapping_doc()->str:
-    """
-    这个函数返回了一个文档，文档的内容是当前权限的映射表
-    :return: str 文档内容
-    """
-    max_role = 0
-    for i in UserRoleMapping:
-        if i.value > max_role:
-            max_role = i.value
-    max_role = max_role << 1
-    doc_str = ""
-    _ = []
-    for n in range(max_role + 1):
-        for scope in UserRoleMapping:
-            if n & scope.value:
-                _.append(scope.name)
-        doc_str += f"When IntNumber is {n} (BIN={bin(n)}, mapping the scope {_})\n"
-        _.clear()
-    return doc_str
-
-
-def scope_mapping(scope_number: int) -> List[str]:
-    scopes = []
-    for scope in UserRoleMapping:
-        if scope_number & scope.value:
-            scopes.append(scope.name)
-    return scopes
-
-
-async def check_permissions(required_scope: SecurityScopes, token=Depends(OAuth2)) -> None:
+async def check_permissions(required_scope: SecurityScopes, token=Depends(oauth2_depends)) -> None:
     payload = None
     try:
-        payload = jwt.decode(token, appcfg.JWT_SECRET_KEY, algorithms=[appcfg.JWT_ALGORITHM])
+        payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=[config.JWT_ALGORITHM])
         if not payload:
-            E401("Invalid certification", {"WWW-Authenticate": f"Bearer {token}"})
+            HTTP_E401("Invalid certification", {"WWW-Authenticate": f"Bearer {token}"})
     except jwt.ExpiredSignatureError:
-        E401("Certification has expired", {"WWW-Authenticate": f"Bearer {token}"})
+        HTTP_E401("Certification has expired", {"WWW-Authenticate": f"Bearer {token}"})
     except jwt.InvalidTokenError:
-        E401("Certification parse error", {"WWW-Authenticate": f"Bearer {token}"})
+        HTTP_E401("Certification parse error", {"WWW-Authenticate": f"Bearer {token}"})
     except (jwt.PyJWTError, ValidationError):
-        E401("Certification parse failed", {"WWW-Authenticate": f"Bearer {token}"})
+        HTTP_E401("Certification parse failed", {"WWW-Authenticate": f"Bearer {token}"})
     user_requested_scope = payload.get("scope")
     if not set(user_requested_scope).issubset(set(required_scope.scopes)):
-        E401("Not enough scope for authorization", {"WWW-Authenticate": f"Bearer {token}"})
+        HTTP_E401("Not enough scope for authorization", {"WWW-Authenticate": f"Bearer {token}"})
+
+
+class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
+    """
+    This is a dependency class to collect the `username` and `password` as form data
+    for an OAuth2 password flow.
+
+    """
+
+    def __init__(
+        self,
+        grant_type: Annotated[
+            str,
+            Form(pattern="password"),
+        ],
+        username: Annotated[
+            str,
+            Form(),
+        ],
+        password: Annotated[
+            str,
+            Form(),
+        ],
+        scope: Annotated[
+            str,
+            Form(),
+        ] = "",
+        client_id: Annotated[
+            Union[str, None],
+            Form(),
+        ] = None,
+        client_secret: Annotated[
+            Union[str, None],
+            Form(),
+        ] = None,
+        group_name: Annotated[
+            Union[str, None],
+            Form(),
+        ] = None,
+    ):
+        super().__init__(
+            grant_type=grant_type,
+            username=username,
+            password=password,
+            scope=scope,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
+        self.group_name = group_name

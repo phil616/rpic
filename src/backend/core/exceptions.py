@@ -5,10 +5,11 @@ from fastapi.exceptions import RequestValidationError
 from pydantic import ValidationError
 from starlette import status
 from typing import Optional, Any
+from core.logcontroller import logger
 
+def HTTP_E401(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
 
-def E401(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
-    # TODO log here
+    logger.exception(f"HTTP_E401: {details}")
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail=details,

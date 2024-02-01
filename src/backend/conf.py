@@ -46,6 +46,7 @@ class AppConfig(BaseSettings):
     # JWT (Json Web Token) 
     JWT_SECRET_KEY: str = Field(default="randomkey",env="JWT_SECRET_KEY",description="JWT密钥")
     JWT_ACCESS_EXPIRE_MINUTES: int = Field(default=24*60,env="JWT_ACCESS_EXPIRE_MINUTES",description="JWT过期时间")
+    JWT_ALGORITHM: str = Field(default="HS256",env="JWT_ALGORITHM",description="JWT算法")
     # -------------------- CORS --------------------
     # Cross-Origin Resource Sharing Policy
     CORS_ORIGINS: List = ["*"]
