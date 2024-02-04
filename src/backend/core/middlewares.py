@@ -1,9 +1,5 @@
-import functools
-import re
-import typing
-from core.logcontroller import log
-from starlette.datastructures import Headers, MutableHeaders
-from starlette.responses import PlainTextResponse, Response
+
+from starlette.datastructures import Headers
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 class BaseMiddleware:

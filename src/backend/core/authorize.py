@@ -1,6 +1,6 @@
 
 from datetime import timedelta, datetime
-from typing import Annotated, List
+from typing import Annotated, Dict
 import jwt
 from fastapi.security import  SecurityScopes
 from fastapi import Request
@@ -21,7 +21,7 @@ token_url = "/authorization/token"
 
 oauth2_depends = CookieSecurity("/authorization/token", scopes=user_scopes)
 
-def create_access_token(data: dict) -> str:
+def create_access_token(data: Dict) -> str:
     """
     返回JWT的token字符串
     :param data: 负载数据
@@ -66,7 +66,7 @@ def create_access_token(data: dict) -> str:
 
 
 async def check_permissions(
-        req:Request,
+        req: Request,
         required_scope: SecurityScopes, 
         token=Depends(oauth2_depends),
         state = Depends(get_global_state)) -> None:

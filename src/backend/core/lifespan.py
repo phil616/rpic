@@ -23,6 +23,7 @@ def startup(app: FastAPI) -> Callable:
         await register_mysql(app)
         # [STARTUP 03] get global state
         state = get_global_state()
+        app.state.global_state = state  # Not recommended. It's better to use dependency injection
     return app_start
 
 

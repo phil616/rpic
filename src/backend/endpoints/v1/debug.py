@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from fastapi import Request,Security
 from core.runtime import get_global_state
 from core.authorize import check_permissions
-from curd.authentication import curd_debug_test_user, get_user_permissions
+from curd.authentication import curd_debug_test_user
 debug_router = APIRouter()
 async def check_group(req:Request):
     def print_header(req:Request):

@@ -1,8 +1,6 @@
 from models.User import User
 #from models.UserRole import UserRole  # User - Role
 from models.RoleScope import RoleScope  # Role - Scope
-from models.Group import Group
-from models.GroupUser import GroupUser
 from core.logcontroller import log
 user_scopes = {
     "PROCEDURE:ACCESS": "Access procedure",

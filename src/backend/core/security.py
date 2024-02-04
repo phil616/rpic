@@ -6,8 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.utils import get_authorization_scheme_param
 from typing import Dict, Optional
 from starlette.requests import Request
-from typing_extensions import Annotated
-from typing import Any, Callable, Sequence
+from typing import Any, Callable
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from fastapi.params import Depends
