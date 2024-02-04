@@ -20,7 +20,6 @@ def startup(app: FastAPI) -> Callable:
         
         # [STARTUP 02] Register mysql database
         await register_mysql(app)
-
     return app_start
 
 

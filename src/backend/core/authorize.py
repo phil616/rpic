@@ -3,24 +3,22 @@ from datetime import timedelta, datetime
 from typing import Annotated, List
 import jwt
 from fastapi.security import  SecurityScopes
+from fastapi import Request
 from fastapi import Depends
 from pydantic import ValidationError
 from conf import config
 from core.exceptions import HTTP_E401
 from core.security import CookieSecurity
-from curd.authentication import user_roles
+from curd.authentication import user_scopes
 from fastapi.security import OAuth2PasswordRequestForm
-
+from core.logcontroller import log
 from typing import Union
 
 from fastapi.param_functions import Form
 
-
-
 token_url = "/authorization/token"
 
-oauth2_depends = CookieSecurity("/authorization/token", scopes=user_roles)
-
+oauth2_depends = CookieSecurity("/authorization/token", scopes=user_scopes)
 
 def create_access_token(data: dict) -> str:
     """
@@ -53,19 +51,20 @@ def create_access_token(data: dict) -> str:
     token_data.update(
         {
             "exp": expire, 
-
+            "iss": config.APP_NAME,
         }
     )
     jwt_token = jwt.encode(
         payload=token_data,             # 编码负载
         key=config.JWT_SECRET_KEY,      # 密钥
         algorithm=config.JWT_ALGORITHM  # 默认算法
-    )                                   
+    )
+    log.debug(f"JWT token: {jwt_token}")
     return jwt_token
 
 
 
-async def check_permissions(required_scope: SecurityScopes, token=Depends(oauth2_depends)) -> None:
+async def check_permissions(req:Request, required_scope: SecurityScopes, token=Depends(oauth2_depends)) -> None:
     payload = None
     try:
         payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=[config.JWT_ALGORITHM])
@@ -91,10 +90,7 @@ class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
 
     def __init__(
         self,
-        grant_type: Annotated[
-            str,
-            Form(pattern="password"),
-        ],
+
         username: Annotated[
             str,
             Form(),
@@ -103,6 +99,10 @@ class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
             str,
             Form(),
         ],
+        grant_type: Annotated[
+            Union[str, None],
+            Form(pattern="password"),
+        ] = None,
         scope: Annotated[
             str,
             Form(),

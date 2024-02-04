@@ -93,6 +93,6 @@ async def register_mysql(app: FastAPI):
         generate_schemas=test_result["generate_schemas"],
         add_exception_handlers=config.APP_DEBUG,
     )
-    log.info("MySQL registered")
+    log.info("[MySQL CNN] MySQL registered")
 
 

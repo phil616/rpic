@@ -5,11 +5,12 @@ from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.utils import get_authorization_scheme_param
 from typing import Dict, Optional
-
 from starlette.requests import Request
+from typing_extensions import Annotated
+from typing import Any, Callable, Sequence
 from starlette.status import HTTP_401_UNAUTHORIZED
 
-
+from fastapi.params import Depends
 class CookieSecurity(OAuth2PasswordBearer):
     def __init__(self, tokenUrl:
                 str,
@@ -56,3 +57,22 @@ class CookieSecurity(OAuth2PasswordBearer):
             else:
                 return None
         return param
+
+class GroupSecurity(Depends):
+    def __init__(
+        self,
+        dependency: Optional[Callable[..., Any]] = None,
+        *,
+        group: Optional[int] = None,
+        use_cache: bool = True,
+    ):
+        super().__init__(dependency=dependency, use_cache=use_cache)
+        self.group = group
+
+def GroupPermission(dependency: 
+        Optional[Callable[..., Any]] = None,
+    *,
+    group: 
+        Optional[str]= None,
+    use_cache:bool = True,):
+    return GroupSecurity(dependency=dependency, group=group, use_cache=use_cache)
