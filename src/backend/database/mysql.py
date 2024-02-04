@@ -3,7 +3,6 @@ from tortoise.contrib.fastapi import register_tortoise
 import re
 from conf import config,get_models
 from pymysql import connect
-from pymysql.err import ProgrammingError
 from core.logcontroller import log
 from typing import Dict
 def execute_mysql_query(sql_query: str) -> None:
