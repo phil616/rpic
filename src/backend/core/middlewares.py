@@ -6,7 +6,7 @@ from starlette.datastructures import Headers, MutableHeaders
 from starlette.responses import PlainTextResponse, Response
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
-class MyMiddleware:
+class BaseMiddleware:
     def __init__(
             self,
             app: ASGIApp,
@@ -22,7 +22,7 @@ class MyMiddleware:
         self, message: Message, send: Send, request_headers: Headers
     ) -> None:
         if message["type"] != "http.response.start":
-
+            # 从ASGI的标准来看，如果不在此判断，那么lifespan就无法使用
             await send(message)
             return
         await send(message)

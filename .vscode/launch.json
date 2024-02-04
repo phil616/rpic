@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "cwd":"${workspaceFolder}/src/backend",
+            "name": "Python: FastAPI",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "main:app",
+                "--reload"
+            ],
+            "jinja": false,
+            "justMyCode": true
+        }
+    ]
+}
+// q:i'd like to change the start dir, how to do?
+// a: add "cwd": "${workspaceFolder}/path/to/your/project" to the configuration

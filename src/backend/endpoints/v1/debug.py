@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from fastapi import Request,Security
+from core.runtime import get_global_state
 from core.authorize import check_permissions
 from curd.authentication import curd_debug_test_user, get_user_permissions
 debug_router = APIRouter()
@@ -23,9 +24,8 @@ async def debug_router_get_user():
     return {"user": "user"}
 
 @debug_router.get("/permissoin/user",dependencies=[Security(check_permissions,scopes=["PROCEDURE:ACCESS"])])
-async def debug_router_get_user_permission():
-    await curd_debug_test_user()
-    return {"user": "user"}
+async def debug_router_get_user_permission(req:Request,state=Depends(get_global_state)):
+    return {"user": state.user}
 
 @debug_router.get("/permissoin/access/{userspace}/{endpoint}")
 async def debug_router_get_access(req:Request,userspace:str,endpoint:str):

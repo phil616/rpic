@@ -1,6 +1,10 @@
-
-from starlette.types import ASGIApp, Scope, Receive, Send, Message
-
+import functools
+import re
+import typing
+from core.logcontroller import log
+from starlette.datastructures import Headers, MutableHeaders
+from starlette.responses import PlainTextResponse, Response
+from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 class BaseMiddleware:
     def __init__(
@@ -11,7 +15,14 @@ class BaseMiddleware:
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         async def send_wrapper(message: Message) -> None:
-            print("state: ",message["type"])
             await send(message)
-            print("state: after await send")
+
         await self.app(scope, receive, send_wrapper)
+    async def send(
+        self, message: Message, send: Send, request_headers: Headers
+    ) -> None:
+        if message["type"] != "http.response.start":
+            # 从ASGI的标准来看，如果不在此判断，那么lifespan就无法使用
+            await send(message)
+            return
+        await send(message)

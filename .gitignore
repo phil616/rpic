@@ -4,6 +4,9 @@ __pycache__/
 /.idea
 *.pyc
 
+# vscode
+# .vscode/
+
 /logs
 
 /venv

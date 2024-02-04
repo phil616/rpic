@@ -29,7 +29,7 @@ class AppConfig(BaseSettings):
     APP_VERSION:str = Field(default="0.0.1", env="APP_VERSION",description="APP版本")
     APP_TITLE:str = Field(default="RPICS", env="APP_TITLE",description="APP标题")
     APP_DESCRIPTION:str = Field(default="The backend for RPICS", env="APP_DESCRIPTION",description="APP描述")
-    APP_DEBUG:bool = Field(default=False, env="APP_DEBUG",description="APP调试模式")
+    APP_DEBUG:bool = Field(default=True, env="APP_DEBUG",description="APP调试模式")
 
 
     # -------------------- MYSQL --------------------

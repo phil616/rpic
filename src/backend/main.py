@@ -7,11 +7,13 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from core.lifespan import startup,stopping
-from core.middlewares import MyMiddleware
+from core.middlewares import BaseMiddleware
 from endpoints import router
 
-from conf import config as appcfg  # for compatibility
-application = FastAPI()
+from conf import config  # for compatibility
+application = FastAPI(
+    debug=config.APP_DEBUG,
+)
 
 # application event handler
 application.add_event_handler("startup", startup(application))
@@ -23,10 +25,15 @@ application.mount("/static", app=StaticFiles(directory="static"), name="static")
 # application.add_exception_handler(Exception, router.error_handler) # unfinished
 # application middleware
 application.add_middleware(
-    MyMiddleware,
-
+    BaseMiddleware,
 )
-
+application.add_middleware(
+    CORSMiddleware,
+    allow_origins=config.CORS_ORIGINS,
+    allow_credentials=config.CORS_ALLOW_CREDENTIALS,
+    allow_methods=config.CORS_ALLOW_METHODS,
+    allow_headers=config.CORS_ALLOW_HEADERS,
+)
 
 # application router
 application.include_router(router.all_router)

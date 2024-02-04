@@ -6,6 +6,7 @@ from fastapi.security import  SecurityScopes
 from fastapi import Request
 from fastapi import Depends
 from pydantic import ValidationError
+from core.runtime import get_global_state
 from conf import config
 from core.exceptions import HTTP_E401
 from core.security import CookieSecurity
@@ -59,15 +60,20 @@ def create_access_token(data: dict) -> str:
         key=config.JWT_SECRET_KEY,      # 密钥
         algorithm=config.JWT_ALGORITHM  # 默认算法
     )
-    log.debug(f"JWT token: {jwt_token}")
+    log.debug(f"JWT_data: \n{token_data}\nJWT token: {jwt_token}")
     return jwt_token
 
 
 
-async def check_permissions(req:Request, required_scope: SecurityScopes, token=Depends(oauth2_depends)) -> None:
+async def check_permissions(
+        req:Request,
+        required_scope: SecurityScopes, 
+        token=Depends(oauth2_depends),
+        state = Depends(get_global_state)) -> None:
     payload = None
     try:
         payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=[config.JWT_ALGORITHM])
+        log.debug(f"Payload: {payload}")
         if not payload:
             HTTP_E401("Invalid certification", {"WWW-Authenticate": f"Bearer {token}"})
     except jwt.ExpiredSignatureError:
@@ -76,10 +82,11 @@ async def check_permissions(req:Request, required_scope: SecurityScopes, token=D
         HTTP_E401("Certification parse error", {"WWW-Authenticate": f"Bearer {token}"})
     except (jwt.PyJWTError, ValidationError):
         HTTP_E401("Certification parse failed", {"WWW-Authenticate": f"Bearer {token}"})
-    user_requested_scope = payload.get("scope")
+    user_requested_scope = payload.get("per")
+    log.debug(f"User requested scope: {user_requested_scope}")
     if not set(user_requested_scope).issubset(set(required_scope.scopes)):
         HTTP_E401("Not enough scope for authorization", {"WWW-Authenticate": f"Bearer {token}"})
-
+    state.user = payload
 
 class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
     """
