@@ -1,4 +1,6 @@
-
+"""
+鉴权核心模块
+"""
 from datetime import timedelta, datetime
 from typing import Annotated, Dict
 import jwt
@@ -23,13 +25,14 @@ oauth2_depends = CookieSecurity("/authorization/token", scopes=user_scopes)
 
 def create_access_token(data: Dict) -> str:
     """
-    返回JWT的token字符串
+    构造JWT的token字符串函数
+    将传进来的字典作为负载，并增加额外的默认字段后生成JWT的token字符串
     :param data: 负载数据
     :return: 负载数据被转换后的字符串
     """
     """
-    RFC7519标准: https://www.rfc-editor.org/rfc/rfc7519
-    第四章 包含了：
+    额外注释：
+    需要注意的是在RFC7519标准: https://www.rfc-editor.org/rfc/rfc7519    第四章中，标准负载包含了：
     "iss" (Issuer), 颁布者  本系统，颁布者为 APP_NAME
     "sub" (Subject),  主题  
     "aud" (Audience),  观众
@@ -43,7 +46,7 @@ def create_access_token(data: Dict) -> str:
     使用的字段：
     1. "exp" (Expiration Time), 过期时间
     2. "uid" (User) 用户ID
-    3. "per" (Permission) 要求的权限（根据权限颁发给用户的）
+    3. "per" (Permission) 要求的权限（根据权限颁发给用户的）  这和旧版系统的scopes字段相同，但不使用scopes字段
     4. "gid" (Group) 用户组ID
     5. "typ" (Type) 用户类型
     """
@@ -70,6 +73,15 @@ async def check_permissions(
         required_scope: SecurityScopes, 
         token=Depends(oauth2_depends),
         state = Depends(get_global_state)) -> None:
+    
+    """
+    检查权限
+    检查权限一般和fastapi的security的Depends一起使用，用于检查用户的权限是否满足要求
+    :param req: 请求
+    :param required_scope: 需要的权限
+    :param token: token JWT原始token
+    :param state: 全局状态
+    """
     payload = None
     try:
         payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=[config.JWT_ALGORITHM])
@@ -90,8 +102,8 @@ async def check_permissions(
 
 class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
     """
-    This is a dependency class to collect the `username` and `password` as form data
-    for an OAuth2 password flow.
+    OAuth2带有用户组的模式类
+    这个类与OAuth2PasswordRequestForm类相似，但是增加了用户组的字段，原始认证流程不变，但如果用户选择了用户组，那么用户组字段会被填充
 
     """
 

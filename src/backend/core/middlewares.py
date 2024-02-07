@@ -1,4 +1,6 @@
-
+"""
+中间件模块
+"""
 from starlette.datastructures import Headers
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
