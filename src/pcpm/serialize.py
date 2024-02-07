@@ -33,3 +33,7 @@ class Deserializer:
     """
     ...
 
+def run_command():
+    with open("f.pyb", "rb") as f:
+        code = f.read()
+    loads(code)(3)
