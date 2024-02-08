@@ -7,7 +7,7 @@ import asyncio
 
 """
 包含了哈希和加密
-
+DONE
 对于加密：提供AES加密和哈希加密
 对于哈希：提供Bcrypt哈希加密和SHA256哈希加密
 """
