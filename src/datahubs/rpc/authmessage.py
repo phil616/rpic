@@ -10,4 +10,5 @@ end with 4 bytes of magic word: b'RPIC'
 
 if body is wider than 1016 bytes, it will be truncated
 """
-
+def jwt_encoder():
+    ...

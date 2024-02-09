@@ -14,12 +14,3 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/newuser")
-async def newUser():
-    await User.create(username="admin", password="admin")
-    return {"message": "Hello World"}
-
-@app.get("/newfile")
-async def newFile():
-    await File.create(name="test", path="test")
-    return {"message": "Hello World"}

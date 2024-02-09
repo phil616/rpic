@@ -57,7 +57,8 @@ class AppConfig(BaseSettings):
     # RPC config
     RPC_ROOT_SERVER: str = Field(default="localhost", env="RPC_ROOT_SERVER",description="RPC根服务器地址")
     RPC_ROOT_PORT: int = Field(default=5000, env="RPC_ROOT_PORT",description="RPC根服务器端口")
-    
+    RPC_ROOT_USERNAME: str = Field(default="admin", env="RPC_ROOT_USERNAME",description="RPC根服务器用户名")
+    RPC_ROOT_PASSWORD: str = Field(default="admin", env="RPC_ROOT_PASSWORD",description="RPC根服务器密码")
     # -------------------- SQLite --------------------
     # SQLite config for tortoise ORM
     SQLITE_DIR: List = [".","sqlite3"]

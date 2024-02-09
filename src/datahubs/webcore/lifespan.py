@@ -9,6 +9,13 @@ from os import path, makedirs
 from .dependenices import get_global_state
 import aiohttp
 
+async def login_to_root(session:aiohttp.ClientSession):
+    username: str = config.RPC_ROOT_USERNAME
+    password: str = config.RPC_ROOT_PASSWORD
+    async with session.get("http://localhost:8000/datahub/") as response:
+        resp = await response.json()
+        log.info(f"JWT_KEY received from RPC_ROOT_SERVER: {resp}")
+
 
 @contextlib.asynccontextmanager
 async def app_lifespan(app: FastAPI):
