@@ -13,7 +13,7 @@ class SharedObject:
         raise NotImplementedError
     def get(self):
         raise NotImplementedError
-    
+
 class Memory(SharedObject):
 
     def __init__(self, *args, **kwargs):
