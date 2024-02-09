@@ -8,7 +8,8 @@ user_scopes = {
     "PROCEDURE:ADMIN" : "manage procedure",
     "GROUP:CURD": "CURD group",
     "GROUP:ENDPOINT":"manage group endpoint",
-    "USER:CURD":"CURD user"
+    "USER:CURD":"CURD user",
+    "SYSTEM:HARDWARE":"manage hardware",
 }
 user_roles = {
     "user": "application user",
@@ -36,7 +37,7 @@ async def curd_init_role_scope():
     )
     await RoleScope.create(
         user_role="system",
-        role_scopes="PROCEDURE:ACCESS,PROCEDURE:MODIFY,PROCEDURE:ADMIN,GROUP:CURD,GROUP:ENDPOINT,USER:CURD"
+        role_scopes="PROCEDURE:ACCESS,PROCEDURE:MODIFY,PROCEDURE:ADMIN,GROUP:CURD,GROUP:ENDPOINT,USER:CURD,SYSTEM:HARDWARE"
     )
 
 async def get_user_permissions(user_id:int)->list[str]:
