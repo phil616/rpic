@@ -8,11 +8,12 @@ from .logcontroller import log
 from os import path, makedirs
 from .dependenices import GlobalState, get_global_state
 import aiohttp
+from rpc import server
+import threading
 """
 对于datahubs而言，应该是用户通过Authserver登陆后，换取JWT，其中带有Gid
 通过GID可以在datahub中直接放问到自己的数据。需要注意的是，为了解析JWT，
 需要来自RPC_ROOT_SERVER的JWT_KEY和ALgorithm
-
 """
 async def login_to_root(aiohttp_session:aiohttp.ClientSession,state:GlobalState):
     jwt_key = None
@@ -77,7 +78,12 @@ async def app_lifespan(app: FastAPI):
     await login_to_root(aiohttp_session,state)
     # [LIFESPAN 03] 设置RPC
     # TODO: 注入一个 RPCServer Object
-    
+    rpc_thread = threading.Thread(
+        target=server.start_rpc_server,
+        args=({"decrypt_key":state.runtime.get("JWT_KEY"),"decrypt_algorithm":state.runtime.get("JWT_DECRYPT")},),
+        daemon=True)
+    rpc_thread.start()
+
 
     log.info(f"APP starting up: {app}")
     yield

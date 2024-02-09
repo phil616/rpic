@@ -1,7 +1,7 @@
 import rpyc
 from rpyc.utils.authenticators import AuthenticationError
-from tcp_multipart import decode,is_last_frame
-from rpc_service import SecuredService
+from .tcp_multipart import decode,is_last_frame
+from .rpc_service import SecuredService
 import jwt
 
 
@@ -10,7 +10,7 @@ class ServiceFactory:
         self.hostname = hostname
         self.port = port
         self.decrypt_key = decrypt_key
-        self.decrypt_algorithm = "HS256"
+        self.decrypt_algorithm = decrypt_algorithm
     def header_authenticator(self,sock):
         buffer = b''
         while True:
@@ -19,7 +19,6 @@ class ServiceFactory:
                 break
         decoded = decode(buffer)
         self.decrypt_jwt(decoded)
-
         return sock, None
     def decrypt_jwt(self,token):
         try:
@@ -36,3 +35,12 @@ class ServiceFactory:
             service=SecuredService, hostname=self.hostname,
             port=self.port, authenticator=self.header_authenticator
         )
+
+def start_rpc_server(info_dict:dict):
+    hostname = info_dict.get("hostname","localhost")
+    port = info_dict.get("port",18812)
+    decrypt_key = info_dict.get("decrypt_key","randomkey")
+    decrypt_algorithm = info_dict.get("decrypt_algorithm","HS256")
+    factory = ServiceFactory(hostname=hostname,port=port,decrypt_key=decrypt_key,decrypt_algorithm=decrypt_algorithm)
+    server = factory.make_thread_server()
+    server.start()

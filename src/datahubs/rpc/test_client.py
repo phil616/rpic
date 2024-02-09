@@ -15,7 +15,8 @@ class AuthSocketStream(rpyc.SocketStream):
         return stream_obj
 
 def callback_authorizer(sock):
-    tcp = TCPMultipart(b'23')
+    jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInBlciI6W10sImdpZCI6MSwiZXhwIjoxNzA3NTU3MjM5LCJpc3MiOiJSUElDUyBCYWNrZW5kIn0.LsGVqJZeXFb0qyaHc2vjPifOcMBH_HZr89HRbzpb4yg"
+    tcp = TCPMultipart(jwt.encode())
     r = tcp.export_package()
     sock.send(r)
 def rpyc_connect(host, port, service=rpyc.VoidService, config={}, ipv6=False, keepalive=False, authorizer=None):
@@ -33,6 +34,9 @@ conn1 = rpyc_connect(
 )
 
 print(conn1.root.secured_op())
+jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInBlciI6W10sImdpZCI6MSwiZXhwIjoxNzA3NTU3MjM5LCJpc3MiOiJSUElDUyBCYWNrZW5kIn0.LsGVqJZeXFb0qyaHc2vjPifOcMBH_HZr89HRbzpb4yg"
+    
+print(conn1.root.get_cache('key', jwt))
 exit(0)
 print('With wrong authorizer')
 
