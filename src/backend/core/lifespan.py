@@ -1,3 +1,6 @@
+"""
+应用生命周期处理模块
+"""
 from fastapi import FastAPI
 from typing import Callable
 from starlette.routing import Route as starlette_route

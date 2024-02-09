@@ -24,3 +24,4 @@ class BaseMiddleware:
             await send(message)
             return
         await send(message)
+    
