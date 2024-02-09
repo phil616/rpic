@@ -36,27 +36,5 @@ conn1 = rpyc_connect(
 print(conn1.root.secured_op())
 jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInBlciI6W10sImdpZCI6MSwiZXhwIjoxNzA3NTU3MjM5LCJpc3MiOiJSUElDUyBCYWNrZW5kIn0.LsGVqJZeXFb0qyaHc2vjPifOcMBH_HZr89HRbzpb4yg"
     
-print(conn1.root.get_cache('key', jwt))
+print(conn1.root.get_cache('key',jwt))
 exit(0)
-print('With wrong authorizer')
-
-conn2 = rpyc_connect(
-        'localhost', 18812, authorizer=lambda sock: sock.send('Invalid'.encode())
-)
-
-try:
-    conn2.root
-except Exception:
-    print(traceback.format_exc())
-
-
-print('With no authorizer')
-
-conn3 = rpyc_connect(
-        'localhost', 18812
-)
-
-try:
-    conn3.root
-except Exception:
-    print(traceback.format_exc())
