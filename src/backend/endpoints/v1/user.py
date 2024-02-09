@@ -115,3 +115,4 @@ async def user_delete_user(uid:int):
     """
     user = await User.filter(user_id=uid).delete()
     return user
+
