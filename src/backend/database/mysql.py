@@ -5,6 +5,19 @@ from conf import config,get_models
 from pymysql import connect
 from core.logcontroller import log
 from typing import Dict
+def execute_sql_query(sql_query: str):
+    with connect(
+        host=config.MYSQL_HOST,
+        user=config.MYSQL_USER,
+        password=config.MYSQL_PASS,
+        port=config.MYSQL_PORT,
+    ) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(sql_query)
+            conn.commit()
+            return cursor.fetchall()
+
+
 def execute_mysql_query(sql_query: str) -> None:
     with connect(
         host=config.MYSQL_HOST,

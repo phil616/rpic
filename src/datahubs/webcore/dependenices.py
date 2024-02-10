@@ -1,8 +1,8 @@
 
 from .syscache import SystemCache
+ 
 
-
-class GlobalState:
+class GlobalState: 
     """
     GlobalState is a singleton class that holds the runtime state of the application.
 

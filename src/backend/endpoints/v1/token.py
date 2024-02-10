@@ -60,6 +60,7 @@ async def SN_Authorization_Token(form_data: Annotated[OAuth2WithGroupRequest, De
         token = create_access_token(jwt_data)
         return {"access_token": token, "token_type": "bearer"}
 
-@token_router.get("/oauth/userscopes")
+@token_router.get("/oauth/userscopes",
+                  deprecated=True,)
 async def SN_Authorization_UserScopes():
     return user_scopes

@@ -29,3 +29,7 @@ result.json
 # Draw IO temp files and backup files
 *.bkp  
 *.dtmp
+
+# pytest cache
+__pycache__/
+.pytest_cache/

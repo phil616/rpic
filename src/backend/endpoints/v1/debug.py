@@ -5,6 +5,8 @@ from fastapi import Request,Security
 from core.runtime import get_global_state
 from core.authorize import check_permissions
 from curd.authentication import curd_debug_test_user
+from database.mysql import execute_sql_query
+
 debug_router = APIRouter()
 async def check_group(req:Request):
     def print_header(req:Request):
@@ -47,3 +49,17 @@ async def create_item(req:Request,userspace:str,endpoint:str,item: Item):
     print(f"you will be redirected to{userspace} and {endpoint} ")
     RedirectResponse(f"/{userspace}/{endpoint}")
     return item
+
+class SQLStatement(BaseModel):
+    statement: str
+@debug_router.post("/sql/statements")
+async def execute_sql_statement(statement: SQLStatement):
+    r = execute_sql_query(statement.statement)
+    return r
+
+@debug_router.get("/restart_this_app")
+async def restart_app(req:Request):
+    f=open("restart.py","a")
+    f.write("# restart\n")
+    f.close()
+    return {"restart":"restart"}
