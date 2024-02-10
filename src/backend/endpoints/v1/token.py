@@ -7,6 +7,7 @@ from models.User import User
 from models.GroupUser import GroupUser
 from models.Group import Group
 from core.logcontroller import log
+from curd.authentication import user_scopes
 token_router = APIRouter()
 
 
@@ -59,3 +60,6 @@ async def SN_Authorization_Token(form_data: Annotated[OAuth2WithGroupRequest, De
         token = create_access_token(jwt_data)
         return {"access_token": token, "token_type": "bearer"}
 
+@token_router.get("/oauth/userscopes")
+async def SN_Authorization_UserScopes():
+    return user_scopes
