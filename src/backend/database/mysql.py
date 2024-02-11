@@ -5,6 +5,8 @@ from conf import config,get_models
 from pymysql import connect
 from core.logcontroller import log
 from typing import Dict
+
+from curd.authentication import curd_init_role_scope
 def execute_sql_query(sql_query: str):
     with connect(
         host=config.MYSQL_HOST,
@@ -105,6 +107,7 @@ async def register_mysql(app: FastAPI):
         generate_schemas=test_result["generate_schemas"],
         add_exception_handlers=config.APP_DEBUG,
     )
+    await curd_init_role_scope()  # init scope-user mapping
     log.info("[MySQL CNN] MySQL registered")
 
 
