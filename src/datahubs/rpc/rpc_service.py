@@ -1,10 +1,6 @@
 import rpyc
 import jwt
-from .cache import CachePool
-from .disk import DiskPool
-
-g_cache = CachePool()  # g_ means global or singleton
-g_disk = DiskPool()
+from dataobj import g_disk,g_cache
 
 class SecuredService(rpyc.Service):
     """

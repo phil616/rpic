@@ -1,4 +1,8 @@
-from fastapi import APIRouter, Depends,Request,Security
+"""
+This file(endpoints) has following ORM operation
+User CURD
+"""
+from fastapi import APIRouter, Depends,Security
 from typing import Optional
 from core.authorize import check_permissions
 from models.User import User
@@ -9,7 +13,8 @@ from models.RoleScope import RoleScope
 from core.runtime import GlobalState, get_global_state
 from pydantic import BaseModel
 from core.logcontroller import log
-user_router = APIRouter(prefix="/user",dependencies=[Security(check_permissions,scopes=["PROCEDURE:ACCESS"])])
+
+user_router = APIRouter(prefix="/user",dependencies=[Security(check_permissions,scopes=["USER:CURD"])])
 
 async def curd_get_user_all_info(uid:int)->dict:
     """
@@ -46,7 +51,7 @@ async def curd_get_user_all_info(uid:int)->dict:
     result_set.update({"groups":groups})
     return result_set
 
-
+# USER retrive R
 @user_router.get("/get/info")
 async def user_get_userinfo_by_id(uid:Optional[int]=None,state:GlobalState=Depends(get_global_state)):
     if uid is None:
@@ -70,6 +75,7 @@ class UserBasicSchema(BaseModel):
     user_roles: str
     user_status: int
 
+# USER create C
 @user_router.post("/create")
 async def user_create_user(user:UserBasicSchema):
     """
@@ -87,6 +93,7 @@ async def user_create_user(user:UserBasicSchema):
     )
     return user
 
+# User update U
 @user_router.post("/update")
 async def user_update_user(uid:int,user:UserBasicSchema):
     """
@@ -105,8 +112,9 @@ async def user_update_user(uid:int,user:UserBasicSchema):
     )
     return user
 
+# User D
 @user_router.post("/delete")
-async def user_delete_user(uid:int):
+async def user_delete_exist_user(uid:int):
     """
     CURD functions
     delete user

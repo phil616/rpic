@@ -37,7 +37,9 @@ async def login_to_root(aiohttp_session:aiohttp.ClientSession,state:GlobalState)
         state.runtime.set("JWT_KEY", jwt_key)
         state.runtime.set("JWT_DECRYPT", jwt_algorithm)
     else:
-        log.error(f"JWT_KEY not received from RPC_ROOT_SERVER, using default key:{jwt_key}")
+        state.runtime.set("JWT_KEY", "randomkey")
+        state.runtime.set("JWT_DECRYPT", 'HS256')
+        log.error("JWT_KEY not received from RPC_ROOT_SERVER, using default key: randomkey")
     
 @contextlib.asynccontextmanager
 async def app_lifespan(app: FastAPI):

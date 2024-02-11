@@ -1,0 +1,70 @@
+<mxfile host="Electron" modified="2024-02-11T09:27:48.570Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="pWlpy7sbPQUPh8Wp84iT" version="23.0.2" type="device">
+  <diagram name="第 1 页" id="XGKtJFqOBUtTHtnPC8kG">
+    <mxGraphModel dx="1100" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gekG19gA_uEYzbWWgDZr-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gekG19gA_uEYzbWWgDZr-1" target="gekG19gA_uEYzbWWgDZr-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gekG19gA_uEYzbWWgDZr-1" target="gekG19gA_uEYzbWWgDZr-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-1" value="RPC Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gekG19gA_uEYzbWWgDZr-2" target="gekG19gA_uEYzbWWgDZr-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gekG19gA_uEYzbWWgDZr-2" target="gekG19gA_uEYzbWWgDZr-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gekG19gA_uEYzbWWgDZr-2" target="gekG19gA_uEYzbWWgDZr-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-2" value="HTTP Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="gekG19gA_uEYzbWWgDZr-3" target="gekG19gA_uEYzbWWgDZr-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-3" value="SQL Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-4" value="Datahub Interface" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="160" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-15" value="JSON Disk Storage" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-16" value="Memory Cache" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-19" value="File Storage" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="620" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-23" value="SQLite" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-25" value="RPC Authorize" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="164" y="60" width="236" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gekG19gA_uEYzbWWgDZr-26" value="HTTP JWT Auth" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="60" width="230" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

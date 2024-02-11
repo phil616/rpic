@@ -5,8 +5,8 @@ class Disk:
     def __init__(self, gid: int):
         self.gid = gid
         self.lock = Lock()
-        self.filename = f'disk_{gid}.json'
-        self.filepath = os.path.join(__file__,"..","storage",self.filename)
+        self.filename = f'disk_{gid}.userspace.json'
+        self.filepath = os.path.join(os.path.dirname(os.path.dirname(os.path.join(__file__))),"storage",self.filename)
         with self.lock:
             try:
                 with open(self.filepath, 'r') as f:
@@ -19,13 +19,13 @@ class Disk:
     def set(self, key: str, value):
         with self.lock:
             self.data[key] = value
-            with open(self.filepath, 'w') as f:
+            with open(self.filepath, 'w+') as f:
                 dump(self.data, f)
     def delete(self, key: str):
         with self.lock:
             try:
                 del self.data[key]
-                with open(self.filepath, 'w') as f:
+                with open(self.filepath, 'w+') as f:
                     dump(self.data, f)
             except KeyError:
                 pass

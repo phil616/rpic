@@ -1,5 +1,4 @@
 import rpyc
-import traceback
 from tcp_multipart import TCPMultipart
 # solved by https://stackoverflow.com/questions/69917561/how-to-implement-username-password-authenticator-for-rpyc-server
 

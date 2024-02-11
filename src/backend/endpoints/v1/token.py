@@ -8,8 +8,8 @@ from models.GroupUser import GroupUser
 from models.Group import Group
 from core.logcontroller import log
 from curd.authentication import user_scopes
-token_router = APIRouter()
 
+token_router = APIRouter()
 
 token_router = APIRouter(prefix="/authorization")
 

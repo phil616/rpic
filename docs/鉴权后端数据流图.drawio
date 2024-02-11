@@ -1,0 +1,79 @@
+<mxfile host="Electron" modified="2024-02-11T12:38:37.745Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="FUsKgi4BPs7hnS9b_JsD" version="23.0.2" type="device">
+  <diagram name="第 1 页" id="5C8UlQyTHKwmTTbVWOff">
+    <mxGraphModel dx="2231" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ltglHsupyfhJRsPA5cYW-1" value="User" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="30" y="10" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ltglHsupyfhJRsPA5cYW-2" value="creator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="30" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ltglHsupyfhJRsPA5cYW-3" value="admin" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="30" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ltglHsupyfhJRsPA5cYW-4" value="system" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="30" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-2" value="USER:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ltglHsupyfhJRsPA5cYW-5" target="jX09zkj8u2VJQLj2BDRq-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ltglHsupyfhJRsPA5cYW-5" value="system" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="30" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-4" value="USER:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="jX09zkj8u2VJQLj2BDRq-1" target="jX09zkj8u2VJQLj2BDRq-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-6" value="GROUP:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jX09zkj8u2VJQLj2BDRq-1" target="jX09zkj8u2VJQLj2BDRq-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-1" value="创建一个User" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="320" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-3" value="添加权限为admin" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="630" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-5" value="同时创建该组" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="630" y="410" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-9" value="USER:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="jX09zkj8u2VJQLj2BDRq-7" target="jX09zkj8u2VJQLj2BDRq-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-7" value="Admin" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="555" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-11" value="USER:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="jX09zkj8u2VJQLj2BDRq-8" target="jX09zkj8u2VJQLj2BDRq-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-13" value="GROUP:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jX09zkj8u2VJQLj2BDRq-8" target="jX09zkj8u2VJQLj2BDRq-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-8" value="创建一个User" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="555" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-10" value="提权为creator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-12" value="同时加入该组" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="610" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-16" value="USER:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="jX09zkj8u2VJQLj2BDRq-14" target="jX09zkj8u2VJQLj2BDRq-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-14" value="creator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-19" value="GROUP:CURD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="jX09zkj8u2VJQLj2BDRq-15" target="jX09zkj8u2VJQLj2BDRq-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-15" value="创建一个User" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="740" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jX09zkj8u2VJQLj2BDRq-17" value="添加至该组" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="740" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
