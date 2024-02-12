@@ -29,7 +29,7 @@ import threading
 from os import PathLike
 from os.path import join,dirname
 from typing import Any,Dict
-
+import ujson as json
 class PriorityList(list):
     def __init__(self,maxlen:int):
         super().__init__()
@@ -63,7 +63,7 @@ class SQLiteConnection:
         self.lru_cache:Dict[str,int] = {}
 
     def _create_connection(self,user:str) -> sqlite3.Connection:
-        conn_name = join(self.sqlite_path,user+".sqlite")
+        conn_name = join(self.sqlite_path,user+".userspace.sqlite")
         return sqlite3.connect(conn_name)
     
     def get_connection(self,user:str) -> sqlite3.Connection:
@@ -104,10 +104,24 @@ def execute_sql(sql:str,userspcae:str):
     conn = SQL_CONN.get_connection(userspcae)
     cursor = conn.cursor()
     cursor.execute(sql)
-
-    all = cursor.fetchall()
-    
-
+    rows = cursor.fetchall()
     conn.commit()
     cursor.close()
+    # 转换为字典列表
+    results = []
+    for row in rows:
+        result = {}
+        result['column1'] = row[0]  # 根据实际列名调整
+        result['column2'] = row[1]
+        # 添加其他列...
+        results.append(result)
+
+    # 转换为JSON字符串
+    json_data = json.dumps(results)
+
     SQL_CONN.close_connection(userspcae)
+    return json_data
+
+
+n = execute_sql("select * from test","test")
+print(n)

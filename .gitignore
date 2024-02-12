@@ -36,3 +36,6 @@ __pycache__/
 # save json file but ignore userspace for storage
 *.userspace.json
 !*.json
+
+*.userspace.sqlite
+!*.sqlite
