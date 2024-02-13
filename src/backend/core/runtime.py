@@ -23,13 +23,6 @@ class SharedMemory:
         self.crt_state = "a"
 
 
-    async def crt(self,r):
-        await waiting()
-        self.crt_state = r
-        await waiting()
-        return self.crt_state
-
-
 class GlobalState:
     def __init__(self):
         self.runtime = SharedMemory()
