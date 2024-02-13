@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from core.lifespan import app_lifespan
 from core.middlewares import BaseMiddleware
 from database.sqlite import FileDB
+
 prototype = FastAPI(lifespan=app_lifespan)
 
 prototype.add_middleware(BaseMiddleware)

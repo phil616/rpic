@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from tortoise import Tortoise
 import contextlib
 
+def get_decrypt_key():
+    return "1234567890123456"  # should be move to config file
+
 
 SQLite_url = "sqlite://./db.sqlite3"  # should be move to config file
 
