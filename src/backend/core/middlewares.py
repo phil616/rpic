@@ -3,7 +3,9 @@
 """
 from starlette.datastructures import Headers
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
-
+from core.proxy import request_var
+from fastapi import Request
+from core.logcontroller import log
 class BaseMiddleware:
     def __init__(
             self,
@@ -24,3 +26,17 @@ class BaseMiddleware:
             await send(message)
             return
         await send(message)
+
+
+async def bind_context_request(request: Request, call_next):
+    """
+    middleware for request
+    bind the current request to context var
+    """
+    token = request_var.set(request)
+    log.debug(f"from {request.client.host}/{request.client.port} [ACCESSED] {request.url} " )
+    try:
+        response = await call_next(request)
+        return response
+    finally:
+        request_var.reset(token)

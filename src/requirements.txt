@@ -34,3 +34,4 @@ rpyc~=5.3.1
 aiohttp~=3.9.3
 python-dotenv
 pydantic-settings~=2.1.0
+shortuuid~=1.0.11

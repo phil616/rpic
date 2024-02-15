@@ -5,6 +5,7 @@ from webcore.endpoints import all_router
 
 app = FastAPI(lifespan=app_lifespan)
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

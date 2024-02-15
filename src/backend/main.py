@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from core.lifespan import startup,stopping
-from core.middlewares import BaseMiddleware
+from core.middlewares import BaseMiddleware,bind_context_request
 from endpoints import router
 
 from conf import config  # for compatibility
@@ -27,6 +27,7 @@ application.mount("/static", app=StaticFiles(directory="static"), name="static")
 application.add_middleware(
     BaseMiddleware,
 )
+application.middleware("http")(bind_context_request)
 application.add_middleware(
     CORSMiddleware,
     allow_origins=config.CORS_ORIGINS,

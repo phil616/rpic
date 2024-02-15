@@ -4,7 +4,7 @@
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from typing import Optional, Any
-from core.logcontroller import logger
+from core.logcontroller import log as logger
 
 def HTTP_E401(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
     logger.exception(f"HTTP_E401: {details}")

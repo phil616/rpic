@@ -6,7 +6,7 @@ from core.runtime import get_global_state
 from core.authorize import check_permissions
 from curd.authentication import curd_debug_test_user
 from database.mysql import execute_sql_query
-
+from core.proxy import request
 debug_router = APIRouter()
 async def check_group(req:Request):
     def print_header(req:Request):

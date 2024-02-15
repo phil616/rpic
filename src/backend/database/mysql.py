@@ -5,7 +5,7 @@ from conf import config,get_models
 from pymysql import connect
 from core.logcontroller import log
 from typing import Dict
-
+from tortoise import Tortoise
 from curd.authentication import curd_init_role_scope
 def execute_sql_query(sql_query: str):
     with connect(
@@ -21,6 +21,7 @@ def execute_sql_query(sql_query: str):
 
 
 def execute_mysql_query(sql_query: str) -> None:
+    log.debug(f"[MYSQL RAW] executing sql: {sql_query}")
     with connect(
         host=config.MYSQL_HOST,
         user=config.MYSQL_USER,
@@ -42,14 +43,12 @@ async def mysql_connect_test()->Dict[str,bool]:
     try:
         sql_query = f"USE {config.MYSQL_DB};"
         execute_mysql_query(sql_query)
-        log.debug("[MYSQL RAW] Executing SQL query:" + sql_query)
     except Exception as e:
         log.error(f"[MYSQL 1049] Error {e}")
         # create database and build schema
         result_state["create_database"] = True
         result_state["generate_schemas"] = True
         return result_state
-
     try:
         sql_query = f"SELECT * FROM {config.MYSQL_DB}.USER;"
         execute_mysql_query(sql_query)
@@ -96,17 +95,22 @@ async def register_mysql(app: FastAPI):
     }
     
     test_result = await mysql_connect_test()
-    if test_result["create_database"]:
-        sql_query = f"CREATE DATABASE {config.MYSQL_DB};"
-        execute_mysql_query(sql_query)
-        log.info("[MYSQL] Database created")
-    register_tortoise(
+    await Tortoise.init(
+        config=config_dict,
+        _create_db=test_result["create_database"]
+    )
+    if test_result["generate_schemas"]:
+        await Tortoise.generate_schemas()
+    """
+        register_tortoise(
         app,
         config=config_dict,
-        modules={"models": models},
+    #    modules={"models": models},
         generate_schemas=test_result["generate_schemas"],
         add_exception_handlers=config.APP_DEBUG,
     )
+    """
+
     await curd_init_role_scope()  # init scope-user mapping
     log.info("[MySQL CNN] MySQL registered")
 
