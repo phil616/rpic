@@ -8,3 +8,18 @@
 - 高效验证数据
 - etc
 2. OpenAPI 规范
+- 介绍OpenAPI规范
+- FastAPI如何支持OpenAPI规范
+- etc
+3. 并发和异步处理
+- 介绍并发和异步处理的概念
+- FastAPI如何支持并发和异步处理
+- etc
+4. 异步开发
+- 介绍异步开发的概念
+- FastAPI如何支持异步开发
+- etc
+5. Serverless
+- 介绍Serverless的概念
+- FastAPI如何支持Serverless
+- etc
