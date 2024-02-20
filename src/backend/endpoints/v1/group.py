@@ -14,6 +14,7 @@ from core.authorize import check_permissions
 from core.logcontroller import log
 from models.User import User
 from models.GroupUser import GroupUser
+from core.proxy import request as state  # state is a contextvar
 group_router = APIRouter(prefix="/group",dependencies=[Security(check_permissions,scopes=["GROUP:CURD"])])
 
 
@@ -24,7 +25,7 @@ class GroupSchema(BaseModel):
 
 # GROUP create C
 @group_router.post("/create")
-async def group_create_group(group:GroupSchema,state = Depends(get_global_state)):
+async def group_create_group(group:GroupSchema):
     """
     """
     creator_id = state.user.get("uid")

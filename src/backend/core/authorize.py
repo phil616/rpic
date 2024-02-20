@@ -16,7 +16,7 @@ from curd.authentication import user_scopes
 from fastapi.security import OAuth2PasswordRequestForm
 from core.logcontroller import log
 from typing import Union
-
+from core.proxy import request
 from fastapi.param_functions import Form
 
 token_url = "/authorization/token"
@@ -108,7 +108,7 @@ async def check_permissions(
     log.debug(f"User access scope: {required_scope.scopes}")
     if scope_contains(required_scope.scopes, user_requested_scope) is False:
         HTTP_E401("Not enough scope for authorization", {"WWW-Authenticate": f"Bearer {token}"})
-    state.user = payload
+    request.user = payload
 
 class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
     """

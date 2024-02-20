@@ -1,11 +1,8 @@
 """
 运行时模块
 """
-from asyncio import sleep
 
 
-async def waiting():
-    await sleep(5)
 class SharedMemory:
     """
     这个类是一个运行时共享的库
@@ -18,9 +15,7 @@ class SharedMemory:
         return cls._instance
 
     def __init__(self):
-        self.global_switch = True
-        self.global_counter = 1
-        self.crt_state = "a"
+        ...
 
 
 class GlobalState:

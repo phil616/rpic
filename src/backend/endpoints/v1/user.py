@@ -13,7 +13,7 @@ from models.RoleScope import RoleScope
 from core.runtime import GlobalState, get_global_state
 from pydantic import BaseModel
 from core.logcontroller import log
-
+from core.proxy import request as state  # state is a contextvar
 user_router = APIRouter(prefix="/user",dependencies=[Security(check_permissions,scopes=["USER:CURD"])])
 
 async def curd_get_user_all_info(uid:int)->dict:
@@ -53,7 +53,7 @@ async def curd_get_user_all_info(uid:int)->dict:
 
 # USER retrive R
 @user_router.get("/get/info")
-async def user_get_userinfo_by_id(uid:Optional[int]=None,state:GlobalState=Depends(get_global_state)):
+async def user_get_userinfo_by_id(uid:Optional[int]=None):
     if uid is None:
         uid = state.user.get("uid")
     user = await User.filter(user_id=state.user.get("uid")).first()
