@@ -2,7 +2,7 @@
 This file(endpoints) has following ORM operation
 User CURD
 """
-from fastapi import APIRouter, Depends,Security
+from fastapi import APIRouter, Security
 from typing import Optional
 from core.authorize import check_permissions
 from models.User import User
@@ -10,7 +10,7 @@ from models.Group import Group
 from models.GroupUser import GroupUser
 from core.exceptions import HTTP_E401
 from models.RoleScope import RoleScope
-from core.runtime import GlobalState, get_global_state
+
 from pydantic import BaseModel
 from core.logcontroller import log
 from core.proxy import request as state  # state is a contextvar
@@ -40,7 +40,7 @@ async def curd_get_user_all_info(uid:int)->dict:
     result_set.update({"user_info":target_user.user_info})
     user_roles = target_user.user_roles.split(",")
     result_set.update({"user_roles":user_roles})
-    permissions = []
+    permissions = [] 
     for role in user_roles:
         role_scopes = await RoleScope.filter(user_role=role).first()
         permissions.extend(role_scopes.role_scopes.split(","))

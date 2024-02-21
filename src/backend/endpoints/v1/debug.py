@@ -63,3 +63,13 @@ async def restart_app(req:Request):
     f.write("# restart\n")
     f.close()
     return {"restart":"restart"}
+@debug_router.get("/hello")
+async def hello(req:Request):
+    return {"hello":"world"}
+
+class Body(BaseModel):
+    name: str
+    age: int
+@debug_router.post("/body")
+async def body(body: Body):
+    return {"body": body}
