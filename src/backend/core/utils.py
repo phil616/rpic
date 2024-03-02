@@ -10,3 +10,6 @@ def get_current_time():
         return current_time
     except pytz.UnknownTimeZoneError:
         return datetime.now()
+    
+def get_timezone():
+    return pytz.timezone(config.GLOBAL_TIMEZONE)

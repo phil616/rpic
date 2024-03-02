@@ -8,7 +8,7 @@ from fastapi.background import BackgroundTasks
 import threading
 import math
 import asyncio
-from core.utils import get_current_time
+from core.utils import get_current_time,get_timezone
 async def flush_subapp_status():
     log.info("flush subapp status RUNNING")
     while True:
@@ -18,7 +18,7 @@ async def flush_subapp_status():
         for app in all_app:
             log.debug(current_time)
             log.debug(app.subapp_latest_report)
-            interval = current_time - app.subapp_latest_report
+            interval = current_time - app.subapp_latest_report.astimezone(get_timezone())
             log.debug(interval.total_seconds())
             if abs(interval.total_seconds()) > config.SUBAPP_EXPIRE:
                 log.debug( config.SUBAPP_EXPIRE)
