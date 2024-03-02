@@ -54,5 +54,6 @@ class AppConfig(BaseSettings):
     CORS_ALLOW_METHODS: List = ["*"]
     CORS_ALLOW_HEADERS: List = ["*"]
 
-    
+    SUBAPP_AUTHCODE:str = Field(default="hello",env="SUBAPP_AUTHCODE",description="子应用的授权码")
+    SUBAPP_EXPIRE:int = Field(default=300,env="SUBAPP_EXPIRE",description="最大过期时间")
 config = AppConfig()

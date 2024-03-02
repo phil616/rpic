@@ -90,7 +90,7 @@ async def register_mysql(app: FastAPI):
                 "default_connection": "default"  # link to `base` database
             },
         },
-        'use_tz': False,
+        'use_tz': True,
         'timezone': config.GLOBAL_TIMEZONE
     }
     

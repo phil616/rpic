@@ -14,7 +14,13 @@ def HTTP_E401(details: Optional[Any] = None, headers: Optional[dict[str, Any]] =
         headers=headers
     )
 
-
+def HTTP_E403(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
+    logger.exception(f"HTTP_E403: {details}")
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail=details,
+        headers=headers
+    )
 async def http_error_handler(_: Request, exc: HTTPException) -> JSONResponse:
     """
     http异常处理
