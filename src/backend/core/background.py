@@ -14,12 +14,8 @@ async def flush_subapp_status():
     while True:
         current_time = get_current_time()
         all_app = await Subapp.all()
-        log.debug(all_app)
         for app in all_app:
-            log.debug(current_time)
-            log.debug(app.subapp_latest_report)
             interval = current_time - app.subapp_latest_report.astimezone(get_timezone())
-            log.debug(interval.total_seconds())
             if abs(interval.total_seconds()) > config.SUBAPP_EXPIRE:
                 log.debug( config.SUBAPP_EXPIRE)
                 log.info(f"subapp has been removed due to expire to flush{app.subapp_id}")

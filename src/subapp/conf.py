@@ -13,5 +13,6 @@ class Config(BaseSettings):
     CP_HOST:str = Field(default="127.0.0.1",env="CP_HOST")
 
     DEPLOY_PORT:int = Field(default=8001,env="DEPLOY_PORT",description="部署端口")
-
+    AUTHCODE:str = Field(default="hello",env="AUTHCODE",description="向注册中心的认证码")
+    
 config = Config() # Singleton mode for config object

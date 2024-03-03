@@ -14,7 +14,7 @@ class RegisterSchema(BaseModel):
     port:int
 
 
-machine_router = APIRouter()
+machine_router = APIRouter(prefix="/subapp")
 
 @machine_router.post("/register")
 async def subapp_login_register(info:RegisterSchema):
