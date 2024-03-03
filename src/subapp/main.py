@@ -7,7 +7,6 @@ prototype = FastAPI(lifespan=app_lifespan)
 
 prototype.add_middleware(BaseMiddleware)
 
-
 @prototype.get("/")
 async def root():
     return {"message": "Hello World"}

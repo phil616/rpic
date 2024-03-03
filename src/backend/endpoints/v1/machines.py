@@ -6,6 +6,8 @@ from conf import config
 import datetime
 from core.utils import get_current_time
 from core.exceptions import HTTP_E403,HTTP_E401
+
+
 class RegisterSchema(BaseModel):
     authcode:str
     host:str

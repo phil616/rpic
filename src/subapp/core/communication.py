@@ -3,8 +3,8 @@ from conf import config
 async def login_to_command_pod(session:aiohttp.ClientSession,url:str):
     login_payload = {
         "authcode":"hello",
-        "ip":"",
-        "port":""
+        "ip":"",  # get ip
+        "port":""  # 
     }
 
     port = 8000
