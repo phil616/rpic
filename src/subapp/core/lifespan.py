@@ -65,9 +65,7 @@ async def app_lifespan(app: FastAPI):
     # [LIFESPAN 01] 获取全局状态
     state = get_global_state()
     # [LIFESPAN 02] 获取aiohttp的session
-    aiohttp_session = aiohttp.ClientSession()
-    log.info(f"aiohttp session created: {aiohttp_session}")
-    await login_to_command_pod(aiohttp_session)
+    await login_to_command_pod()
     # [LIFESPAN 03] 登陆RPC_ROOT_SERVER获取JWT_KEY, JWT_ALGORITHM
     # await login_to_root(aiohttp_session,state)
     log.info(f"JWT_KEY received from RPC_ROOT_SERVER: {state.runtime.get('JWT_KEY')}")
