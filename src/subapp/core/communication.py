@@ -9,6 +9,8 @@ class RegisterSchema(BaseModel):
     authcode:str
     host:str
     port:int
+
+    
 port = 8000
 url = "http://" + config.CP_HOST + ":" + str(port) + "/subapp"
 async def login_to_command_pod():
