@@ -26,12 +26,12 @@ GroupProcedure
 | group_id     | int      |          |          |
 | procedure_id | int      |          |          |
 
-GroupVenv
+GroupSubapp
 
 | 字段名   | 字段类型 | 字段属性 | 字段描述 |
 | -------- | -------- | -------- | -------- |
 | group_id | int      |          |          |
-| app_id   | int      |          |          |
+| subapp_id | int      |          |          |
 
 GroupDatahub
 
