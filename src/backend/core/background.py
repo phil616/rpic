@@ -4,11 +4,9 @@ import datetime
 from conf import config
 from core.logcontroller import log
 from models.Subapp import Subapp
-from fastapi.background import BackgroundTasks
-import threading
-import math
 import asyncio
 from core.utils import get_current_time,get_timezone
+
 async def flush_subapp_status():
     log.info("flush subapp status RUNNING")
     while True:
@@ -24,6 +22,5 @@ async def flush_subapp_status():
         await asyncio.sleep(1)
 
 async def start_threading():
-    task = asyncio.create_task(flush_subapp_status())
+    asyncio.create_task(flush_subapp_status())
     
-
