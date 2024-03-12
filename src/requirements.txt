@@ -37,3 +37,5 @@ pydantic-settings~=2.1.0
 shortuuid~=1.0.11
 httpx~=0.26.0
 cryptography~=42.0.5
+celery~=5.3.6
+redis~=5.0.2
