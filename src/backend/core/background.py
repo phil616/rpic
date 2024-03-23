@@ -3,6 +3,7 @@ from conf import config
 from core.logcontroller import log
 from database.rabbitmq import publish_message_with_ttl
 from models.Subapp import Subapp
+<<<<<<< HEAD
 from pydantic import BaseModel
 from core.utils import get_current_time,get_timezone,get_ip
 
@@ -24,6 +25,10 @@ STATIC_REGISTER = RegisterSchema(
 )
 
 
+=======
+import asyncio
+from core.utils import get_current_time,get_timezone
+>>>>>>> 82f91b8e9df2bc687eebadf183c88a2eb80ebb6d
 
 async def flush_subapp_status():
     """ DEPRECATED """
@@ -40,6 +45,7 @@ async def flush_subapp_status():
         ...
         await asyncio.sleep(1)
 
+<<<<<<< HEAD
 
 async def register_application():
     """register application by publish mq"""
@@ -50,3 +56,8 @@ async def register_application():
 
 async def deamon_start():
     asyncio.create_task(register_app())
+=======
+async def start_threading():
+    asyncio.create_task(flush_subapp_status())
+    
+>>>>>>> 82f91b8e9df2bc687eebadf183c88a2eb80ebb6d
