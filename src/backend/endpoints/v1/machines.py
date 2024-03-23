@@ -47,7 +47,7 @@ async def subapp_remove_app(id:str):
     await current_app.delete()
     return {"status":"ok"}
 
-@machine_router.get("/jwt"
+@machine_router.get( "/jwt"
                     #,dependencies=[Security(check_permissions, scopes=["datahub"])]
                     )
 async def get_datahub_info():
