@@ -28,13 +28,7 @@ def startup(app: FastAPI) -> Callable:
         # [STARTUP 03] get global state
         state = get_global_state()
         app.state.global_state = state  # Not recommended. It's better to use dependency injection
-<<<<<<< HEAD
-        # [STARTUP 04] Start background
-        await deamon_start()
-        
-=======
-        # [STARTUP 04] login to Redis Server
->>>>>>> 82f91b8e9df2bc687eebadf183c88a2eb80ebb6d
+
     return app_start
 
 
