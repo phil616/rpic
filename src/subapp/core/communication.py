@@ -9,6 +9,8 @@ class RegisterSchema(BaseModel):
     authcode:str
     host:str
     port:int
+    name:str
+    type:int
 
     
 port = 8000

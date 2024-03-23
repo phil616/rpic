@@ -9,6 +9,8 @@ import time
 import os
 import sys
 import signal
+from database.etcd import register_app
+import asyncio
 from core.runtime import server_process
 def get_system_info():
     
@@ -53,7 +55,8 @@ async def login_to_root(aiohttp_session:aiohttp.ClientSession,state:GlobalState)
     
     # [GET GROUP NUMBER]0
         ...
-
+async def register_subapp():
+    asyncio.create_task(register_app())
 @contextlib.asynccontextmanager
 async def app_lifespan(app: FastAPI):
     """
@@ -65,14 +68,13 @@ async def app_lifespan(app: FastAPI):
     # [LIFESPAN 01] 获取全局状态
     state = get_global_state()
     # [LIFESPAN 02] 获取aiohttp的session
-    await login_to_command_pod()
+    # await login_to_command_pod()
     # [LIFESPAN 03] 登陆RPC_ROOT_SERVER获取JWT_KEY, JWT_ALGORITHM
     # await login_to_root(aiohttp_session,state)
     log.info(f"JWT_KEY received from RPC_ROOT_SERVER: {state.runtime.get('JWT_KEY')}")
 
     print("starting up")
-    
+    await register_subapp()
     yield
     print("shutting down")
     await Tortoise.close_connections()
-    await aiohttp_session.close()
