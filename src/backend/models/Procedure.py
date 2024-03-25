@@ -6,8 +6,8 @@ from tortoise.indexes import Index
 class Procedure(TimestampMixin):
     procedure_id = fields.IntField(pk=True,description="Procedure ID, primary key")
     procedure_type = fields.CharField(max_length=255,description="Script or Package")
-    procedure_creator = fields.ForeignKeyField("models.User",related_name="procedure_creator",description="Procedure Creator")
-    procedure_group_id = fields.ForeignKeyField("models.Group",related_name="procedure_group_id",description="Procedure Group ID")
+    procedure_creator = fields.CharField(max_length=255,description="Procedure Creator")
+    procedure_group_id = fields.IntField(description="Procedure Group ID")
     memory_id = fields.CharField(max_length=255,description="Memory ID")
     disk_id = fields.CharField(max_length=255,description="Disk ID")
     execute_type = fields.CharField(max_length=255,description="Execute Type:[MOUNT ONLY,EXECUTE ONLY,MOUNT AND EXECUTE]")

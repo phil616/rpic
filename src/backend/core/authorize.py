@@ -110,6 +110,7 @@ async def check_permissions(
         HTTP_E401("Not enough scope for authorization", {"WWW-Authenticate": f"Bearer {token}"})
     request.user = payload
 
+
 class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
     """
     OAuth2带有用户组的模式类

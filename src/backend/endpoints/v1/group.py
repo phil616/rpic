@@ -17,7 +17,6 @@ from models.GroupUser import GroupUser
 from core.proxy import request as state  # state is a contextvar
 group_router = APIRouter(prefix="/group",dependencies=[Security(check_permissions,scopes=["GROUP:CURD"])])
 
-
 class GroupSchema(BaseModel):
     group_name : str
     group_info : Optional[Dict] = {}
@@ -26,17 +25,17 @@ class GroupSchema(BaseModel):
 # GROUP create C
 @group_router.post("/create")
 async def group_create_group(group:GroupSchema):
-    """
+    """创建一个组
     """
     creator_id = state.user.get("uid")
     user = await User.filter(user_id=creator_id).first()
     log.debug(f"current user is {creator_id}")
     log.debug(f"following datas will insert:{creator_id,group.group_name,group.group_info,group.group_status}")
     current_group = await Group.create(
-        group_administrator=user,
-        group_name=group.group_name,
-        group_info=group.group_info,
-        group_status=group.group_status)
+        group_administrator=user.user_id,  # 管理员
+        group_name=group.group_name,       # 组名称
+        group_info=group.group_info,       # 组信息
+        group_status=group.group_status)   # 组状态
         
     return current_group
 
@@ -58,15 +57,21 @@ async def group_delete_group():
 # GROUP Retirve R All
 @group_router.get("/get/all")
 async def group_get_group_all():
+    """查询所有组"""
     all_groups = await Group.all()
     return all_groups
 
 
 # GROUPUSER Create C
 @group_router.get("/user/create")
-async def group_user_add_user_to_group(uid:int,state = Depends(get_global_state)):
-    current_group = await Group.filter(group_administrator=state.user.get("uid")).first()
-    user = await User.filter(user_id=uid).first()
+async def group_user_add_user_to_group(uid:int):
+    """
+    添加用户到当前组
+    Args:
+        uid:要添加的用户
+    """
+    current_group = await Group.filter(group_administrator=state.user.get("uid")).first()  # 获取登录的用户
+    user = await User.filter(user_id=uid).first()  # 要添加的用户
     gu = await GroupUser.create(group_id=current_group,user_id=user)
     return gu
 
@@ -77,7 +82,10 @@ async def group_user_update():
 
 # GROUPUSER Retrive R
 @group_router.get("/user/get/all")
-async def group_user_get_current_group_user(state = Depends(get_global_state)):
+async def group_user_get_current_group_user():
+    """
+    获取当前用户所在组的所有用户
+    """
     my_id = state.user.get("uid")
     my_group = await Group.filter(group_administrator=my_id).first()
     all_users_in_my_group = await GroupUser.filter(group_id=my_group).all()

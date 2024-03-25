@@ -5,10 +5,6 @@ from formalize import ProcedureCodeObject
 from dill import loads, dumps
 from base64 import b64encode, b64decode
 from .formalize import ProcedureCodeObject
-b = b'hello'
-print(b.hex(":",2))
-print(bytes.fromhex(b.hex()))
-
 def f(r: int) -> int:
     print(r**2)
     def inner():

@@ -26,7 +26,7 @@ def discover_service()->list:
 lease = etcd.lease(10)
 etcd.put(SERVICE_KEY, json.dumps(SERVICE_VALUE), lease=lease)
 
-async def register_app():
+async def register_app(state):
     while True:
         lease.refresh()
         await asyncio.sleep(9)
