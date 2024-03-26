@@ -89,3 +89,10 @@ class SHA256Hash(BasePassHash):
     async def async_verify(self, password: str, hashed: str) -> bool:
         return await asyncio.to_thread(self.verify, password, hashed)
     
+aes_encrypter = AESCryption("hello")
+
+def encrypt(data:str)->str:
+    return aes_encrypter.encrypt(data)
+
+def decrypt(data:str)->str:
+    return aes_encrypter.decrypt(data)

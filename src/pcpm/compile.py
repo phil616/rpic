@@ -4,7 +4,7 @@
 BASIC COMPLETE
 The Compiler is turn python function's code object into a formalized object, and then turn it back to a function.
 """
-from .formalize import ProcedureCodeObject
+from formalize import ProcedureCodeObject
 from typing import List, Union
 from copy import deepcopy
 from types import FunctionType, CodeType
@@ -70,6 +70,7 @@ class Assemble:
         return self.result
 
 def disassemble_cp39(obj: ProcedureCodeObject,global_vars: dict = None):
+    print(obj)
     return FunctionType(CodeType(
         obj.argcount,
         obj.posonlyargcount,

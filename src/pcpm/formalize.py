@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from sys import version_info
-
+from typing import Optional
 class ProcedureCodeObject(BaseModel):
-    py_version: tuple = (version_info.major, version_info.minor)
+    py_version: Optional[tuple] = (version_info.major, version_info.minor)
     func_params: list = []
     argcount: int = 0
     posonlyargcount: int = 0
