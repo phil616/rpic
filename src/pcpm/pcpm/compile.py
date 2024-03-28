@@ -33,7 +33,7 @@ def assemble_cp39(func:FunctionType, param: Union[List,None] = None):
     return ProcedureCodeObject(**{
         "func_params": param,
         "argcount": code_object.co_argcount,
-        "codestring": code_object.co_code,  # codestring and code are different with var names
+        "codestring": code_object.co_code,  # codestri00ng and code are different with var names
         "cellvars": code_object.co_cellvars,
         "constants": code_object.co_consts,  # constants and consts are different with var names
         "filename": code_object.co_filename,
