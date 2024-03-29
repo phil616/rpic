@@ -4,8 +4,8 @@ from conf import config
 import etcd3
 import asyncio
 import ujson as json
-etcd = etcd3.client(host=config.ETCD_HOST,port=config.ETCD_PORT)
 
+etcd = etcd3.client(host=config.ETCD_HOST,port=config.ETCD_PORT)
 
 service_id = f"{config.SUBAPP_NAME}{ipv4_to_hex(get_ip())}{port_to_hex(config.DEPLOY_PORT)}"
 

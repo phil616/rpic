@@ -21,6 +21,14 @@ def HTTP_E403(details: Optional[Any] = None, headers: Optional[dict[str, Any]] =
         detail=details,
         headers=headers
     )
+
+def HTTP_E404(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
+    logger.exception(f"HTTP_E404: {details}")
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=details,
+        headers=headers
+    )
 async def http_error_handler(_: Request, exc: HTTPException) -> JSONResponse:
     """
     http异常处理

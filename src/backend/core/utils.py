@@ -5,7 +5,7 @@ import pytz
 from datetime import datetime,timezone
 import socket
 import struct
-
+import uuid
 
 def hex_to_ipv4(hex_ip:str)->str:
     # 确保输入为不带前缀的十六进制字符串
@@ -17,8 +17,8 @@ def hex_to_ipv4(hex_ip:str)->str:
     return ipv4_address
 
 # 举例使用
-hex_ip_address = 'C0A80101'
-print(f'The dotted-decimal representation of {hex_ip_address} is {hex_to_ipv4(hex_ip_address)}')
+# hex_ip_address = 'C0A80101'
+# print(f'The dotted-decimal representation of {hex_ip_address} is {hex_to_ipv4(hex_ip_address)}')
 def ipv4_to_hex(ip:str)->str:
     # 将点分十进制的IPv4地址转换为32位打包的二进制格式
     packed_ip = socket.inet_aton(ip)
@@ -63,3 +63,11 @@ def hex_to_port(hex_port):
         return port
     except ValueError:
         return "Invalid hexadecimal port number"
+def generate_random_string():
+    return uuid.uuid4().hex
+
+def str_to_bytes(string:str)->bytes:
+    return string.encode()
+
+def bytes_to_str(bytesarray:bytes)->str:
+    return bytesarray.decode()
