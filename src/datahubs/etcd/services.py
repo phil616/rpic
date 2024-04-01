@@ -1,11 +1,11 @@
-from core.dependencies import GlobalState
-from core.logcontroller import logger
-from core.utils import get_ip,ipv4_to_hex,port_to_hex
+from webcore.dependencies import GlobalState
+from webcore.logcontroller import logger
+from webcore.utils import get_ip,ipv4_to_hex,port_to_hex
 from conf import config
 import etcd3
 import asyncio
 import ujson as json
-from typing import Dict,List
+from typing import Dict
 etcd = etcd3.client(host=config.ETCD_HOST,port=config.ETCD_PORT)
 
 
@@ -33,8 +33,14 @@ async def flush_command_pod_info(state:GlobalState,services:Dict):
         if str(k).startswith("CP"):
             v = json.loads(v)
             state.runtime.set("JWT_KEY",v.get("jwt"))
-            state.runtime.set("JWT_ALGORITHM",v.get("jwt_algo"))
-    logger.debug(state.runtime.get("JWT_KEY"))
+            state.runtime.set("JWT_DECRYPT",v.get("jwt_algo"))
+    thread = state.runtime.get("rpc_thread")
+    if state.runtime.get("JWT_KEY") is not None and not thread.is_alive():
+        logger.info("CP online get jwt success, starting rpc service")
+        thread.start()
+    else:
+        thread = state.runtime.get("rpc_thread")
+        ## this thread cannot stop by other way, in this case jwt is one time spire
     logger.debug(f"Current Online Services:{[service for service in services]}")
 async def register_app(state):
     while True:

@@ -20,4 +20,39 @@ class ProcedurePostSchema(BaseModel):
 #    PROCEURE CURD        # 
 #    PROCEDURE INFO CURD  #  UNION
 ###########################
-    
+
+# P C
+@procedure_router.post("/create")
+async def procedure_create_raw(p:ProcedurePostSchema):
+    uid = request.user.get("uid")
+    gid = request.user.get("gid")
+    if not gid:
+        HTTP_E401("Group Required")
+    model_p = await Procedure.create(procedure_creator=uid,
+                           procedure_group_id=gid,
+                           **p.model_dump()
+                           )
+    pid = model_p.procedure_id
+    await  ProcedureInfo.create(
+        procedure_id=pid,
+        **p.model_dump()
+    )
+    return {"procedure_id":pid}
+
+@procedure_router.get("/delete")
+async def procedure_delete_id(pid:int):
+    p = await Procedure.filter(procedure_id=pid).first()
+    await p.delete()
+
+@procedure_router.post("/update")
+async def procedure_update_schema():
+    ...
+
+@procedure_router.get("/get")
+async def procedure_get_id(pid:int):
+    pmodel = {}
+    p = Procedure.filter(procedure_id=pid).first()
+    pi = ProcedureInfo.filter(procedure_id=pid).first()
+    pmodel.update(p.__dict__)
+    pmodel.update(pi.__dict__)
+    return pmodel

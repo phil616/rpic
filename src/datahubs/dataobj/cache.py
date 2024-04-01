@@ -4,7 +4,7 @@ class Cache(dict):
     def __init__(self,gid:int):
         self.gid = gid
     def get(self,key:str):
-        return self.get(key)
+        return self[key]
     
     def set(self,key:str,value):
         self[key] = value

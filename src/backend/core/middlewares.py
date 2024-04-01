@@ -15,11 +15,12 @@ class BaseMiddleware:
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         async def send_wrapper(message: Message) -> None:
-            log.debug(f"warpper message: {message}")
-            log.debug(f"warpper message type: {message['type']}")
-            log.debug("---------------------")
+            # log.debug(f"warpper message: {message}")
+            # log.debug(f"warpper message type: {message['type']}")
+            # log.debug("---------------------")
             for scope_key in scope:
-                log.debug(f"scope key: {scope_key} value: {scope[scope_key]}")
+                # log.debug(f"scope key: {scope_key} value: {scope[scope_key]}")
+                ...
             await send(message)
 
         await self.app(scope, receive, send_wrapper)
@@ -42,7 +43,7 @@ async def bind_context_request(request: Request, call_next):
     bind the current request to context var
     """
     token = request_var.set(request)
-    log.debug(f"from {request.client.host}/{request.client.port} [ACCESSED] {request.url} " )
+    # log.debug(f"from {request.client.host}/{request.client.port} [ACCESSED] {request.url} " )
     try:
         response = await call_next(request)
         return response

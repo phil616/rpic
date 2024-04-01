@@ -1,6 +1,7 @@
 import aiohttp
 import ujson as json
 from core.utils import get_ip
+from core.dependencies import GlobalState
 from typing import Dict
 from conf import config
 from core.logcontroller import logger as log
@@ -43,7 +44,6 @@ async def login_to_root(aiohttp_session:aiohttp.ClientSession,state:GlobalState)
         async with aiohttp_session.get(ROOT_URL) as response:
             resp = await response.json()
             log.info(f"JWT_KEY received from RPC_ROOT_SERVER: {resp}")
-
         jwt_key = resp.get("key","randomkey")
         jwt_algorithm = resp.get("algorithm", "HS256")
 

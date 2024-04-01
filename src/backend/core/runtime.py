@@ -3,7 +3,7 @@
 """
 
 
-class SharedMemory:
+class SharedMemory(dict):
     """
     这个类是一个运行时共享的库
     """
@@ -15,12 +15,27 @@ class SharedMemory:
         return cls._instance
 
     def __init__(self):
+        self["JWT_KEY"] = None
+        self["JWT_ALGORITHM"] = None
+        self["sp"] = None
         ...
+    def get(self,key:str):
+        return self[key]
+        
+    def set(self,key:str,value):
+        self[key] = value
 
 
 class GlobalState:
     def __init__(self):
         self.runtime = SharedMemory()
+        """runtime fields:
+        1. JWT_KEY JWT 密钥
+        2. JWT_DECRYPT JWT解密算法
+        3. DEPLOY_HOST 部署IP
+        4. DEPLOY_PORT 部署端口
+        5. GROUP_ID 组ID  # SP Specificated
+        """
         ...
 
     def __setattr__(self, key, value):
@@ -35,4 +50,3 @@ G_state = GlobalState()
 
 def get_global_state() -> GlobalState:
     return G_state
-

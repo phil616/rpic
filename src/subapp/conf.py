@@ -15,7 +15,7 @@ class Config(BaseSettings):
     DEPLOY_PORT:int = Field(default=8001,env="DEPLOY_PORT",description="部署端口")
     AUTHCODE:str = Field(default="hello",env="AUTHCODE",description="向注册中心的认证码")
     
-    SUBAPP_NAME:str = Field(default="CP",env="SUBAPP_NAME",description="SUBAPP的分类名字，CP或SP")
+    SUBAPP_NAME:str = Field(default="SP",env="SUBAPP_NAME",description="SUBAPP的分类名字，CP或SP")
     SUBAPP_AUTHCODE:str = Field(default="hello",env="SUBAPP_AUTHCODE",description="子应用的授权码")
     SUBAPP_EXPIRE:int = Field(default=300,env="SUBAPP_EXPIRE",description="最大过期时间")
 

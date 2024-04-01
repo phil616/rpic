@@ -7,7 +7,7 @@ from typing import Optional, Any
 
 import jwt
 from webcore.logcontroller import log
-from webcore.dependenices import get_global_state
+from webcore.dependencies import get_global_state
 
 def HTTP_E401(details: Optional[Any] = None, headers: Optional[dict[str, Any]] = None) -> None:
     raise HTTPException(

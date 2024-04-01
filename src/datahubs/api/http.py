@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Depends,Security
 from dataobj import g_cache,g_disk
-from webcore.dependenices import GlobalState, get_global_state
+from webcore.dependencies import GlobalState, get_global_state
 from webcore.authorize import check_permissions
 from pydantic import BaseModel
 

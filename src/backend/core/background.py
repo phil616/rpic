@@ -6,7 +6,7 @@ from models.Subapp import Subapp
 from pydantic import BaseModel
 from core.utils import get_current_time,get_timezone,get_ip
 
-from database.etcd import register_app
+from database.etcd import etcd_loop
 """ DEPRECATED """
 class RegisterSchema(BaseModel):
     authcode:str
@@ -47,7 +47,7 @@ async def register_application():
         await asyncio.sleep(3)
 
 async def deamon_start():
-    asyncio.create_task(register_app())
+    asyncio.create_task(etcd_loop())
 
 async def start_threading():
     asyncio.create_task(flush_subapp_status())

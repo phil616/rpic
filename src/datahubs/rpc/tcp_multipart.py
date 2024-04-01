@@ -1,5 +1,6 @@
 import uuid
 import random
+import typing
 """
 format
 BOUNDARYUUIDUUIDUUIDUUID [bounary header] + [uuid*4] (8+16 = 24 bytes) 1024-24 = 1000
@@ -9,7 +10,7 @@ CONTENT [content] (length bytes) 994 padding with 0
 BOUNDARYUUIDUUIDUUIDUUID [bounary header] + [uuid*4] (8+16 = 24 bytes)
 """
 
-def get_uuid(lengtn=16) -> bytes:
+def get_uuid(lengtn:int=16) -> bytes:
     """
     get uuid function provide a upper case uuid string
     like 8A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P

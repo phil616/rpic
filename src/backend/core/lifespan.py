@@ -7,6 +7,7 @@ from starlette.routing import Route as starlette_route
 from core.runtime import get_global_state
 from database.mysql import register_mysql
 from core.background import deamon_start
+from conf import config
 def startup(app: FastAPI) -> Callable:
     """
     FastApi startup event, before application start up
@@ -28,7 +29,11 @@ def startup(app: FastAPI) -> Callable:
         # [STARTUP 03] get global state
         state = get_global_state()
         app.state.global_state = state  # Not recommended. It's better to use dependency injection
+        state.runtime.set("JWT_KEY",config.JWT_SECRET_KEY)  #  init Key
+        state.runtime.set("JWT_ALGORITHM",config.JWT_ALGORITHM)  # init algorithm
 
+        # [STARTUP 04] start deamon
+        await deamon_start()
     return app_start
 
 

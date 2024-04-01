@@ -30,11 +30,6 @@ async def app_lifespan(app: FastAPI):
     # [LIFESPAN 01] 获取全局状态
     state = get_global_state()
     # [LIFESPAN 02] 登陆RPC_ROOT_SERVER获取JWT_KEY, JWT_ALGORITHM
-    key_alg = get_jwt_password()
-    state.runtime.set("JWT_KEY",key_alg.get("key","randomkey"))
-    state.runtime.set("JWT_DECRYPT",key_alg.get("algorithm","HS256"))
-    log.info(f"JWT_KEY received from RPC_ROOT_SERVER: {state.runtime.get('JWT_KEY')}")
-
     log.info("Starting up")
     await register_subapp(state)
     yield
