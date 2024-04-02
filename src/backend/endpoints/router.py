@@ -7,6 +7,8 @@ from endpoints.v1.datahub import datahub_router
 from endpoints.v1.group import group_router
 from endpoints.v1.machines import machine_router
 from endpoints.v1.runtime import runtime_router
+from endpoints.v1.mounting import mounting_router
+from endpoints.v1.procedure import procedure_router
 from fastapi import APIRouter
 all_router = APIRouter()
 
@@ -21,4 +23,7 @@ all_router.include_router(datahub_router,tags=["datahub"])
 all_router.include_router(group_router,tags=["group"])
 all_router.include_router(machine_router,tags=["machine"])
 
+
 all_router.include_router(runtime_router,tags=['runtime'])
+all_router.include_router(mounting_router,tags=['procedure'])
+all_router.include_router(procedure_router,tags=['procedure'])

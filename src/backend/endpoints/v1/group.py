@@ -14,7 +14,7 @@ from core.authorize import check_permissions
 from core.logcontroller import log
 from models.User import User
 from models.GroupUser import GroupUser
-from core.proxy import request as state  # state is a contextvar
+from core.proxy import request   # state is a contextvar
 group_router = APIRouter(prefix="/group",dependencies=[Security(check_permissions,scopes=["GROUP:CURD"])])
 
 class GroupSchema(BaseModel):
@@ -27,7 +27,7 @@ class GroupSchema(BaseModel):
 async def group_create_group(group:GroupSchema):
     """创建一个组
     """
-    creator_id = state.user.get("uid")
+    creator_id = request.state.user.get("uid")
     user = await User.filter(user_id=creator_id).first()
     log.debug(f"current user is {creator_id}")
     log.debug(f"following datas will insert:{creator_id,group.group_name,group.group_info,group.group_status}")
@@ -70,7 +70,7 @@ async def group_user_add_user_to_group(uid:int):
     Args:
         uid:要添加的用户
     """
-    current_group = await Group.filter(group_administrator=state.user.get("uid")).first()  # 获取登录的用户
+    current_group = await Group.filter(group_administrator=request.state.user.get("uid")).first()  # 获取登录的用户
     user = await User.filter(user_id=uid).first()  # 要添加的用户
     gu = await GroupUser.create(group_id=current_group,user_id=user)
     return gu
@@ -86,9 +86,9 @@ async def group_user_get_current_group_user():
     """
     获取当前用户所在组的所有用户
     """
-    my_id = state.user.get("uid")
+    my_id = int(request.state.user.get("uid"))
     my_group = await Group.filter(group_administrator=my_id).first()
-    all_users_in_my_group = await GroupUser.filter(group_id=my_group).all()
+    all_users_in_my_group = await GroupUser.filter(group_id=my_group.group_id).all()
     log.debug(all_users_in_my_group)
     return all_users_in_my_group
 

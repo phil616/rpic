@@ -48,7 +48,7 @@ async def get_user_permissions(user_id:int)->list[str]:
     """
     role_permission = []
     try:
-        user = await User.get(user_id=user_id)
+        user = await User.filter(user_id=user_id).first()
         roles = user.user_roles.split(",")
         for role in roles:
             role_scopes = await RoleScope.filter(user_role=role).first()

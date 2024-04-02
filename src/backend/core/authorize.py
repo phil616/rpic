@@ -91,6 +91,7 @@ async def check_permissions(
     :param token: token JWT原始token
     :param state: 全局状态
     """
+    
     payload = None
     try:
         payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=[config.JWT_ALGORITHM])
@@ -108,7 +109,7 @@ async def check_permissions(
     log.debug(f"User access scope: {required_scope.scopes}")
     if scope_contains(required_scope.scopes, user_requested_scope) is False:
         HTTP_E401("Not enough scope for authorization", {"WWW-Authenticate": f"Bearer {token}"})
-    request.user = payload
+    request.state.user = payload
 
 
 class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):
