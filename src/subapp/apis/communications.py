@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
 from core.dependencies import GlobalState,get_global_state
 from core.exceptions import HTTP_E404,HTTP_E403
-communication_router = APIRouter("/info")
+communication_router = APIRouter()
 
 @communication_router.get("/group")
 async def get_current_subapp_group_id(state:GlobalState=Depends(get_global_state)):

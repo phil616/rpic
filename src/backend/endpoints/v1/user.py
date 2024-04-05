@@ -124,3 +124,7 @@ async def user_delete_exist_user(uid:int):
     user = await User.filter(user_id=uid).delete()
     return user
 
+@user_router.get("/all")
+async def user_curd_get_all_user():
+    users = await User.all()
+    return users

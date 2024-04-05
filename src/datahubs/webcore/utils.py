@@ -51,6 +51,8 @@ def get_timezone():
     return pytz.timezone(config.GLOBAL_TIMEZONE)
 
 def get_ip()->str:
+    if config.APP_DEBUG:
+        return "127.0.0.1"
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     return str(ip_address)

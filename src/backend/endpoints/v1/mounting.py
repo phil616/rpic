@@ -5,6 +5,7 @@ from core.authorize import check_permissions
 from core.runtime import get_global_state,GlobalState
 from core.exceptions import HTTP_E404,HTTP_E401
 import asyncio
+from core.logcontroller import log
 from fastapi import Request
 import requests
 from core.proxy import request
@@ -40,7 +41,9 @@ def get_available_subapp(
     empty_sequence = []
     for app in subapps:
         url = f"{prefix}{app.get('host')}:{app.get('port')}/group"
+        log.info(f"Sendingg GET {url}")
         resp = requests.get(url)
+        log.info(f"resp is {resp.status_code}")
         if resp.status_code == 404:
             empty_sequence.append(app)
         if resp.status_code == 200:
@@ -48,12 +51,17 @@ def get_available_subapp(
             if gid == group_id:
                 return app
     if len(empty_sequence) == 0:
+        log.info("no subapp is can use")
         return None
     else:
         for unassign_app in empty_sequence:
+            log.info(f"trying {unassign_app}")
             resp = requests.get(f"{prefix}{unassign_app.get('host')}:{unassign_app.get('port')}/assign/group?gid={gid}")
             if resp.status_code == 200:
+                log.info(f"resp 200ok! {resp.text}")
                 return unassign_app
+            else:
+                log.error(resp.text)
 
 async def mount():
     ...

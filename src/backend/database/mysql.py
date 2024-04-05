@@ -111,7 +111,7 @@ async def register_mysql(app: FastAPI):
     )
     """
 
-    await curd_init_role_scope()  # init scope-user mapping
+    
     log.info("[MySQL CNN] MySQL registered")
 
 

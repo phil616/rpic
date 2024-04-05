@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from fastapi import Request,Security
 from core.runtime import get_global_state
 from core.authorize import check_permissions
-from curd.authentication import curd_debug_test_user
+from curd.authentication import curd_debug_test_user, curd_init_role_scope
 from database.mysql import execute_sql_query
 from core.proxy import request
 debug_router = APIRouter()
@@ -73,3 +73,6 @@ class Body(BaseModel):
 @debug_router.post("/body")
 async def body(body: Body):
     return {"body": body}
+@debug_router.get("/init/userscope")
+async def curd_debug_init_userscope():
+    await curd_init_role_scope()  # init scope-user mapping

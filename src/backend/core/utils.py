@@ -6,7 +6,6 @@ from datetime import datetime,timezone
 import socket
 import struct
 import uuid
-
 def hex_to_ipv4(hex_ip:str)->str:
     # 确保输入为不带前缀的十六进制字符串
     hex_ip = hex_ip.replace('0x', '').replace('0X', '')
@@ -41,6 +40,8 @@ def get_timezone():
     return pytz.timezone(config.GLOBAL_TIMEZONE)
 
 def get_ip()->str:
+    if config.APP_DEBUG:
+        return "127.0.0.1"
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     return str(ip_address)

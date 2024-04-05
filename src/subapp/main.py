@@ -2,11 +2,11 @@ from fastapi import FastAPI
 from core.lifespan import app_lifespan
 from core.middlewares import BaseMiddleware
 from database.sqlite import FileDB
-
+from apis import communications
 prototype = FastAPI(lifespan=app_lifespan)
 
 prototype.add_middleware(BaseMiddleware)
-
+prototype.include_router(communications.communication_router)
 @prototype.get("/")
 async def root():
     return {"message": "Hello World"}

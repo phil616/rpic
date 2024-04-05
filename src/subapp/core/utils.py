@@ -16,9 +16,6 @@ def hex_to_ipv4(hex_ip:str)->str:
     ipv4_address = socket.inet_ntoa(packed_ip)
     return ipv4_address
 
-# 举例使用
-hex_ip_address = 'C0A80101'
-print(f'The dotted-decimal representation of {hex_ip_address} is {hex_to_ipv4(hex_ip_address)}')
 def ipv4_to_hex(ip:str)->str:
     # 将点分十进制的IPv4地址转换为32位打包的二进制格式
     packed_ip = socket.inet_aton(ip)
@@ -40,10 +37,14 @@ def get_current_time():
 def get_timezone():
     return pytz.timezone(config.GLOBAL_TIMEZONE)
 
+
 def get_ip()->str:
+    if config.APP_DEBUG:
+        return "127.0.0.1"
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     return str(ip_address)
+
 
 
 def port_to_hex(port):

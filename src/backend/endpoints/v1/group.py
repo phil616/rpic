@@ -72,7 +72,7 @@ async def group_user_add_user_to_group(uid:int):
     """
     current_group = await Group.filter(group_administrator=request.state.user.get("uid")).first()  # 获取登录的用户
     user = await User.filter(user_id=uid).first()  # 要添加的用户
-    gu = await GroupUser.create(group_id=current_group,user_id=user)
+    gu = await GroupUser.create(group_id=current_group.group_id,user_id=user.user_id)
     return gu
 
 # GROUPUSER Update u
