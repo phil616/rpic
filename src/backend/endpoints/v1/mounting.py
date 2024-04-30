@@ -66,10 +66,7 @@ def get_available_subapp(
 async def mount():
     ...
 
-
-
 mounting_router = APIRouter(prefix="/mounting",dependencies=[Security(check_permissions,scopes=["GROUP:ENDPOINT"])])
-
 @mounting_router.post("/endpoint")
 async def mount_procedure_to_endpoint(
     info:MountingSchema,

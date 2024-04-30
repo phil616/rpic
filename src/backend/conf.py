@@ -68,4 +68,5 @@ class AppConfig(BaseSettings):
     # -------------------- ETCD Service ---------------
     ETCD_HOST:str = Field(default="localhost",env="ETCD_HOST",description="ETCD服务的部署地址")
     ETCD_PORT:int = Field(default=2379,env="ETCD_PORT",description="ETCD服务的部署端口，默认2379")
+
 config = AppConfig()
