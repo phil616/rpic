@@ -109,7 +109,7 @@ async def check_permissions(
     log.debug(f"User access scope: {required_scope.scopes}")
     if scope_contains(required_scope.scopes, user_requested_scope) is False:
         HTTP_E401("Not enough scope for authorization", {"WWW-Authenticate": f"Bearer {token}"})
-    request.state.user = payload
+    request.userinfo = payload
 
 
 class OAuth2WithGroupRequest(OAuth2PasswordRequestForm):

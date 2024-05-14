@@ -72,7 +72,7 @@ async def mount_procedure_to_endpoint(
     info:MountingSchema,
     req:Request,
     state:GlobalState=Depends(get_global_state)):
-    gid = request.state.user.get("gid")
+    gid = request.userinfo.get("gid")
     if not gid:
         HTTP_E401("Group Field required")
     subapps :List = state.runtime.get("sp")

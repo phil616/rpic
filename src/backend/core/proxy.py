@@ -28,7 +28,7 @@ def bind_contextvar(contextvar):
 
 request_var: ContextVar[Request] = ContextVar("request")
 request:Request = bind_contextvar(request_var)
-"""request.user = payload 
+"""request.userinfo = payload 
     1. "exp" (Expiration Time), 过期时间
     2. "uid" (User) 用户ID
     3. "per" (Permission) 要求的权限（根据权限颁发给用户的）  这和旧版系统的scopes字段相同，但不使用scopes字段

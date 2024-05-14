@@ -25,8 +25,8 @@ class ProcedurePostSchema(BaseModel):
 # P C
 @procedure_router.post("/create")
 async def procedure_create_raw(p:ProcedurePostSchema):
-    uid = request.user.get("uid")
-    gid = request.user.get("gid")
+    uid = request.userinfo.get("uid")
+    gid = request.userinfo.get("gid")
     if not gid:
         HTTP_E401("Group Required")
     model_p = await Procedure.create(procedure_creator=uid,

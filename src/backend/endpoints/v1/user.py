@@ -13,7 +13,7 @@ from models.RoleScope import RoleScope
 
 from pydantic import BaseModel
 from core.logcontroller import log
-from core.proxy import request as state  # state is a contextvar
+from core.proxy import request # state is a contextvar
 user_router = APIRouter(prefix="/user",dependencies=[Security(check_permissions,scopes=["USER:CURD"])])
 
 async def curd_get_user_all_info(uid:int)->dict:
@@ -55,8 +55,8 @@ async def curd_get_user_all_info(uid:int)->dict:
 @user_router.get("/get/info")
 async def user_get_userinfo_by_id(uid:Optional[int]=None):
     if uid is None:
-        uid = state.user.get("uid")
-    user = await User.filter(user_id=state.user.get("uid")).first()
+        uid = request.userinfo.get("uid")
+    user = await User.filter(user_id=request.userinfo.get("uid")).first()
     if user.user_id != uid:
         # check login user has permission to get other user's info
         group = await Group.filter(group_administrator=user.user_id).first()
@@ -66,7 +66,7 @@ async def user_get_userinfo_by_id(uid:Optional[int]=None):
                 #401
                 HTTP_E401("the user you get not in your group")
     result = await curd_get_user_all_info(uid)
-    log.debug(f"get user info: {result} by user {state.user.get('uid')}")
+    log.debug(f"get user info: {result} by user {request.userinfo.get('uid')}")
     return result
 class UserBasicSchema(BaseModel):
     username: str
