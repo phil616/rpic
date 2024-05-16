@@ -1,7 +1,8 @@
 
 import streamlit as st
-
-
+from subitem.curd_procedure import inline_curd_procedure
+from subitem.user import inline_user
+from subitem.system import inline_system
 def inline_pass():
     ...
 def system_page():
@@ -24,5 +25,15 @@ def system_page():
                         ## 开发人员
                         - 张三
             """)
-    elif option == "过程执行管理":
+    elif option == "过程执行管理":  # e-procedure
          ...
+    elif option == "过程CURD管理":  # curd_pro
+        inline_curd_procedure()
+    elif option == "用户管理":  # user
+        inline_user()
+    elif option == "用户组管理":  # group
+         ...
+    elif option == "系统管理":  # system
+        ...
+    elif option == "系统状态":  # ....
+        inline_system()

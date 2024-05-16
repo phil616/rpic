@@ -1,6 +1,9 @@
 from fastapi import APIRouter,Depends, Security
 from pydantic import BaseModel,Field
 from typing import List,Literal,Dict,Optional,Union,Sequence
+from models.Procedure import Procedure
+from models.Group import Group
+from models.EndpointProcedure import EndpointProcedure
 from core.authorize import check_permissions
 from core.runtime import get_global_state,GlobalState
 from core.exceptions import HTTP_E404,HTTP_E401
@@ -65,14 +68,11 @@ def get_available_subapp(
 
 async def mount():
     ...
-
 mounting_router = APIRouter(prefix="/mounting",dependencies=[Security(check_permissions,scopes=["GROUP:ENDPOINT"])])
-@mounting_router.post("/endpoint")
-async def mount_procedure_to_endpoint(
-    info:MountingSchema,
-    req:Request,
+@mounting_router.get("/subapp")
+async def get_all_avaliable_subapp(
     state:GlobalState=Depends(get_global_state)):
-    gid = request.userinfo.get("gid")
+    gid = request.userinfo.get("gid") 
     if not gid:
         HTTP_E401("Group Field required")
     subapps :List = state.runtime.get("sp")
@@ -81,3 +81,57 @@ async def mount_procedure_to_endpoint(
     subapp = get_available_subapp(subapps,gid)
     return subapp
     
+@mounting_router.post("/mount")
+async def mount_subapp(
+    schema:MountingSchema,
+    state:GlobalState=Depends(get_global_state)):
+    gid = request.userinfo.get("gid")
+    if gid is None:
+        HTTP_E401("Group Field required")
+    for char in schema.path:
+        if char == "/":
+            HTTP_E401("Path can't contain /")
+    # mounting a pid -> endpoints
+
+    # get current users' group
+    group = await Group.filter(group_id=gid).first()
+    p = await Procedure.filter(procedure_id=schema.procedure_id).first()
+    # check if the mount path is already exist
+    existence = await EndpointProcedure.filter(
+        namespace=group.group_name,
+        mount_path=schema.path,
+        ).first()
+    if existence:
+        HTTP_E401("Mount path is already exist")
+
+    # add EndPoint to Procedure mapping
+    mapping = await EndpointProcedure.create(
+        procedure_id=schema.procedure_id,
+        namespace=group.group_name,
+        mount_path=schema.path,
+    )
+
+    subapps :List = state.runtime.get("sp")
+    if not subapps:
+        HTTP_E404("No availiable subapp services for assigend")
+
+    subapp = get_available_subapp(subapps,gid)
+    if not subapp:
+        HTTP_E401("No availiable subapp services for serve")
+
+
+
+    # let subapp mount this procedure
+    subapp_url = f"http://{subapp.get('host')}:{subapp.get('port')}/mount/endpoint"
+    
+    resp = requests.post(subapp_url,json={
+        "body":p.procedure_raw,
+        "path":schema.path,
+        "userspace":group.group_name
+    })
+    if resp.status_code == 200:
+        return mapping
+
+    # apply to nginx center
+
+    return mapping

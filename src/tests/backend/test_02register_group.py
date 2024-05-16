@@ -40,3 +40,5 @@ class BackendGroupRegisterTest(unittest.TestCase):
         resp = post(BASEURL+"/group/create",json=payload_post,headers=self.system_header)
         self.assertEqual(resp.status_code,200)
 
+if __name__ == '__main__':
+    unittest.main()

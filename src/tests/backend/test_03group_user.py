@@ -41,3 +41,6 @@ class BackendGroupUserAddTest(unittest.TestCase):
                 uid = user.get("user_id")
                 resp = get(BASEURL+f"/group/user/create?uid={uid}",headers=self.system_header)
                 self.assertEqual(resp.status_code,200)
+
+if __name__ == '__main__':
+    unittest.main()

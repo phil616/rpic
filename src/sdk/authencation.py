@@ -80,4 +80,4 @@ def prelogin():
         #ROLE IS NOT IN USE st.session_state.role = conf.STR2TOLE[role]  # admin, user, creator, system
         st.session_state.group_id = parse_jwt(token).get("gid")
     else:
-        st.session_state.authenticated = False
+        st.session_state.authenticated = False 

@@ -60,3 +60,16 @@ async def procedure_get_id(pid:int):
     pmodel.update(pi.__dict__)
     return pmodel
 
+
+@procedure_router.get("/list")
+async def procedure_list():
+    uid = request.userinfo.get("uid")
+    gid = request.userinfo.get("gid")
+    if not gid:
+        HTTP_E401("Group Required")
+    pmodel = []
+    ps = await Procedure.filter(procedure_group_id=gid).all()
+    for p in ps:
+        pi = await ProcedureInfo.filter(procedure_id=p.procedure_id).first()
+        pmodel.append({**p.__dict__,**pi.__dict__})
+    return pmodel

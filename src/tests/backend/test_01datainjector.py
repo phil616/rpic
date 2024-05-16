@@ -73,3 +73,5 @@ class BackendDataInjectorTest(unittest.TestCase):
     def test_inject_add_group(self):
         ...
 
+if __name__ == '__main__':
+    unittest.main()
