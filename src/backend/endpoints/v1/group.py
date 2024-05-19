@@ -15,7 +15,11 @@ from core.logcontroller import log
 from models.User import User
 from models.GroupUser import GroupUser
 from core.proxy import request   # state is a contextvar
-group_router = APIRouter(prefix="/group",dependencies=[Security(check_permissions,scopes=["GROUP:CURD"])])
+
+group_router = APIRouter(prefix="/group",
+                         dependencies=[
+                             Security(check_permissions,scopes=["GROUP:CURD"])
+                         ])
 
 class GroupSchema(BaseModel):
     group_name : str

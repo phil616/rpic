@@ -1,0 +1,90 @@
+字段名称,类型,长度,字段说明,主键,默认值
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+endpoint_id,int,11,Endpoint ID, primary key,是,AUTO_INCREMENT
+namespace,varchar,255,Namespace,否,
+mount_path,varchar,255,Mount Path,否,
+procedure_id,int,11,Procedure ID,否,
+字段名称,类型,长度,字段说明,主键,默认值
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+group_id,int,11,Group ID, primary key,是,AUTO_INCREMENT
+group_administrator,int,11,Group Administrator,否,
+group_name,varchar,255,Group Name,否,
+group_info,json,,Group Info,否,
+group_status,int,11,Group Status,否,
+字段名称,类型,长度,字段说明,主键,默认值
+id,int,11,,是,AUTO_INCREMENT
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+group_id,int,11,Group ID,否,
+procedure_id,int,11,Group Procedure,否,
+字段名称,类型,长度,字段说明,主键,默认值
+id,int,11,,是,AUTO_INCREMENT
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+group_id,int,11,Group ID,否,
+user_id,int,11,Group User,否,
+字段名称,类型,长度,字段说明,主键,默认值
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+procedure_id,int,11,Procedure ID, primary key,是,AUTO_INCREMENT
+procedure_type,varchar,255,Script or Package,否,
+procedure_creator,varchar,255,Procedure Creator,否,
+procedure_group_id,int,11,Procedure Group ID,否,
+memory_id,varchar,255,Memory ID,否,
+disk_id,varchar,255,Disk ID,否,
+execute_type,varchar,255,Execute Type: [MOUNT ONLY, EXECUTE ONLY, MOUNT AND EXECUTE],否,MOUNT AND EXECUTE
+endpoint_id,varchar,255,Endpoint ID,否,NULL
+procedure_raw,longtext,,raw body,否,
+字段名称,类型,长度,字段说明,主键,默认值
+id,int,11,,是,AUTO_INCREMENT
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+procedure_id,int,11,Procedure ID,否,
+executed_by,varchar,255,Executed By,否,
+executed_at,datetime,6,Executed At,否,CURRENT_TIMESTAMP(6)
+executed_from,varchar,255,Executed From,否,
+字段名称,类型,长度,字段说明,主键,默认值
+id,int,11,,是,AUTO_INCREMENT
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+procedure_id,int,11,Procedure ID,否,
+procedure_name,varchar,255,Procedure Name,否,
+procedure_decrypt_key,varchar,255,Procedure Decrypt Key,否,
+procedure_encrypt_type,varchar,255,Procedure Encrypt Type AES/SM4,否,AES
+procedure_size,int,11,Procedure Size,否,NULL
+procedure_extra,varchar,255,Procedure Info,否,NULL
+字段名称,类型,长度,字段说明,主键,默认值
+id,int,11,,是,AUTO_INCREMENT
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+user_role,varchar,255,User Roles,否,
+role_scopes,varchar,255,Role Scopes,否,
+字段名称,类型,长度,字段说明,主键,默认值
+create_time,datetime,6,创建时间,否,CURRENT_TIMESTAMP(6)
+update_time,datetime,6,更新时间,否,CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+update_by,varchar,255,更新人,否,[system]
+create_by,varchar,255,创建人,否,[system]
+user_id,int,11,User ID, primary key,是,AUTO_INCREMENT
+username,varchar,255,Username,否,
+password,varchar,255,Password,否,
+user_info,json,,User Info,否,
+user_status,int,11,User Status,否,
+user_roles,varchar,255,User Roles,否,
