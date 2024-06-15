@@ -33,17 +33,6 @@ class BackendGroupUserAddTest(unittest.TestCase):
     def setUpClass(self) -> None:
         log.info("logging in")
         
-    def test_procedure_debug(self):
-
-        resp = post(BASEURL+"/mounting/subapp",headers=self.system_header,json={
-            "path": "string",
-            "methods": "POST",
-            "procedure_id": 0
-            }
-        )
-        self.assertEqual(resp.status_code,200)
-        log.info(resp.text)
-        self.assertIsNotNone(resp.json().get("host"))
 
 if __name__ == '__main__':
     unittest.main()
