@@ -1,12 +1,18 @@
 # RPIC
 
-Remote procedure call and injection system based on Starlette Framework
+远程过程注入与调用框架
 
-A Python framework that can execute local functions into a serverless architecture, allowing dynamic functions, distributed applications, unlimited route expansion, and unlimited sub-route expansion
+我的本科毕业设计
 
-## Notice for install 
+实现了一个基于Starlette和FastAPI的函数注入框架，可用于将Python Web的Service层逻辑注入到FastAPI的路由当中，充当HTTP处理器。并使用分布式应用解决拓展极限问题。
 
-1. Pydantic version
+## 开源协议
+作者保留所有权
 
-Pydantic package for typing is required for this project. however, there are two version for pydantic, one is pydantic 1.10, and another is pydantic 2.14, these two version are not compatible with each other.
+## 安装
 
+安装各个应用后逐个启动部署
+
+## 归档
+
+该项目以归档，请联系：phil616@163.com
